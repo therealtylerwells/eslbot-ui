@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, Message } from 'semantic-ui-react';
+import { Button, Input, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
+import Axios from 'axios';
+import Router from 'next/router'
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
     errors: false,
+    errorMessage: null,
+    loading: false,
   }
 
   validateForm = () => {
@@ -17,20 +21,32 @@ class Login extends Component {
       this.state.email.trim().length > 0 &&
       this.state.password.trim().length > 0
     ) {
-      console.log('Good submit')
       this.setState({ errors: false })
       return true;
     } else {
-      this.setState({ errors: true})
+      this.setState({ errors: true })
       return false;
     }
   }
 
   handleSubmit = () => {
+    this.setState({ errorMessage: null, errors: false, loading: true })
+    const user = {
+      "email": this.state.email,
+      "password": this.state.password
+    }
     if (this.validateForm()) {
-      // Submit
+      Axios.post('http://localhost:4000/login', user)
+        .then(response => {
+          if (response.data.success) {
+            localStorage.setItem('userId', response.data.id)
+            Router.push('/account')
+          } else {
+            this.setState({ errorMessage: response.data.message, loading: false })
+          }
+        })
     } else {
-      this.setState({ errors: true })
+      this.setState({ errors: true, loading: false })
     }
   }
 
@@ -59,7 +75,8 @@ class Login extends Component {
                 <Button onClick={this.handleSubmit}>
                   Login
               </Button>
-              {this.state.errors ? <Message>ERrors yo</Message> : null}
+                {this.state.errors ? <Message>All fields are required</Message> : null}
+                {this.state.errorMessage ? <Message>{this.state.errorMessage}</Message> : null}
               </Column>
             </Form>
           </Column>
@@ -67,10 +84,13 @@ class Login extends Component {
         </Row>
         <Row>
           <Column>
-            <p>Forgot your password?  <Link href="/"><a>Reset it</a></Link></p>
-            <p>Not signed up?  <Link href="/"><a>Register</a></Link></p>
+            <p>Forgot your password?  <Link href="/reset-password"><a>Reset it</a></Link></p>
+            <p>Not signed up?  <Link href="/register"><a>Register</a></Link></p>
           </Column>
         </Row>
+        <Dimmer inverted active={this.state.loading}>
+          <Loader content="Finding jobs" />
+        </Dimmer>
       </div>
     )
 

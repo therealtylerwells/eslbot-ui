@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Form, Button, Message, Label } from 'semantic-ui-react';
+import { Form, Button, Message, Label, Dimmer, Loader } from 'semantic-ui-react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import { Row, Column } from '../components/common/grid';
 import countryOptions from '../constants/countryOptions';
 import Autocomplete from 'react-autocomplete';
+import Axios from 'axios';
+import Router from 'next/router'
 
 class PostJob extends Component {
   state = {
@@ -15,11 +17,21 @@ class PostJob extends Component {
     city: '',
     country: '',
     jobDescription: '',
-    datePosted: new Date()
+    jobPosterId: undefined,
+    externalPosting: false,
+    postingApproved: false,
+    loading: false,
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('userId')) {
+      this.setState({ postingApproved: true, jobPosterId: localStorage.getItem('userId') })
+    }
   }
 
   handlePostJob = () => {
-    console.log(this.state)
+    this.setState({ loading: true, errors: false, errorMessage: '' })
+        const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postingApproved } = this.state;
     if (
       this.state.schoolName.trim().length > 1 &&
       this.state.email.trim().length > 1 &&
@@ -28,18 +40,45 @@ class PostJob extends Component {
       this.state.country.trim().length > 1 &&
       this.state.jobDescription.trim().length > 1
     ) {
-      console.log('post')
+      const job = {
+        name: schoolName, // TODO: Rename this field to '________????????' everywhere
+        email,
+        jobTitle,
+        city,
+        country,
+        jobDescription,
+        jobPosterId,
+        externalPosting,
+        postingApproved
+      }
+      Axios.post('http://localhost:4000/jobs', job)
+        .then(response => {
+          if (response.data.success) {
+            this.setState({ loading: false })
+            alert('Succcessssss')
+            Router.push({
+              pathname: '/job' + response.data.jobId,
+              query: response.data.jobId,
+            })
+          } else {
+            this.setState({ loading: false, errorMessage: response.data.message })
+          }
+        })
       this.setState({ errors: false })
     } else {
-      this.setState({ errors: true })
+      this.setState({ errors: true, errorMessage: 'Something broke' })
     }
   }
 
+  testNav = () => {
+    Router.push('/job/' + '5cd396143a194a61d3200458')
+  }
   render() {
     return (
       <div>
         <Head title="eslbot" />
         <Nav />
+        <Button onClick={this.testNav}>Test Nav</Button>
         <div>
           <p>Posting jobs is free.</p>
           <p>If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting. It will expire in 60 days.</p>
@@ -79,14 +118,8 @@ class PostJob extends Component {
                 />
               </Column>
               <Column>
-                {/* <Form.Select
-                  placeholder="Country"
-                  label="Country"
-                  options={countryOptions}
-                  onChange={(e, result) => this.setState({ country: result.value})}
-                /> */}
-                <span style={{'color':'rgba(0,0,0,.87)', 'fontSize':'.92857143em', 'fontWeight':'700'}}>Country</span>
-                <br/>
+                <span style={{ 'color': 'rgba(0,0,0,.87)', 'fontSize': '.92857143em', 'fontWeight': '700' }}>Country</span>
+                <br />
                 <Autocomplete
                   autocomplete="off"
                   getItemValue={(item) => item.label}
@@ -97,7 +130,7 @@ class PostJob extends Component {
                     </div>
                   }
                   value={this.state.country}
-                  onChange={(e) => this.setState({ country: e.value})}
+                  onChange={(e) => this.setState({ country: e.value })}
                   onSelect={(val) => this.setState({ country: val })}
                 />
               </Column>
@@ -118,6 +151,9 @@ class PostJob extends Component {
             </div>
           </Form>
         </div>
+        <Dimmer inverted active={this.state.loading}>
+          <Loader content="Finding jobs" />
+        </Dimmer>
       </div>
     )
   }

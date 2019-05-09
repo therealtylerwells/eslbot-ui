@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, Message } from 'semantic-ui-react';
+import { Button, Input, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
-
+import Axios from 'axios';
+import Router from 'next/router'
 class Register extends Component {
   state = {
     email: '',
     password: '',
     password2: '',
     errors: false,
+    errorMessage: '',
+    loading: false,
   }
 
   validateForm = () => {
@@ -24,16 +27,33 @@ class Register extends Component {
       this.setState({ errors: false })
       return true;
     } else {
-      this.setState({ errors: true})
+      this.setState({ errors: true, errorMessage: 'All fields are required' })
       return false;
     }
   }
 
   handleSubmit = () => {
+    this.setState({ errors: false, errorMessage: '', loading: true})
+    const user = {
+      "email": this.state.email,
+      "password": this.state.password,
+    }
     if (this.validateForm()) {
-      // Submit
+      Axios.post('http://localhost:4000/user', user)
+        .then(response => {
+          if (response.data.success) {
+            localStorage.setItem('userId', response.id)
+            Router.push('/account')
+          } else {
+            this.setState({ errors: true, errorMessage: response.data.message, loading: false})
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.setState({loading: false})
+        })
     } else {
-      this.setState({ errors: true })
+      this.setState({ errors: true, loading: false })
     }
   }
 
@@ -69,8 +89,8 @@ class Register extends Component {
                 <Button onClick={this.handleSubmit}>
                   Register
               </Button>
-              {this.state.errors ? <Message>All fields are required</Message> : null}
-              {(this.state.password !== this.state.password2) && this.state.password.trim().length > 5 && this.state.password2.trim().length > 5 ? <Message>Password mismatch</Message> : null}
+                {this.state.errors ? <Message>{this.state.errorMessage}</Message> : null}
+                {(this.state.password !== this.state.password2) && this.state.password.trim().length > 5 && this.state.password2.trim().length > 5 ? <Message>Password mismatch</Message> : null}
               </Column>
             </Form>
           </Column>
@@ -81,6 +101,9 @@ class Register extends Component {
             <p>Already registered?  <Link href="/"><a>Login</a></Link></p>
           </Column>
         </Row>
+        <Dimmer inverted active={this.state.loading}>
+          <Loader content="Finding jobs" />
+        </Dimmer>
       </div>
     )
 

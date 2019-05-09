@@ -21,15 +21,15 @@ class Home extends Component {
           Accept: 'application/json'
         }
       })
-      .then(response => {
-        return response.json()
-      })
-      .then(json => {
-        this.setState({ data: json, loading: false })
-      })
-      .catch(error => console.log(error))
+        .then(response => {
+          return response.json()
+        })
+        .then(json => {
+          this.setState({ data: json, loading: false })
+        })
+        .catch(error => console.log(error))
     } else {
-      alert('Faggot')
+      alert('derp')
     }
   }
 
@@ -38,11 +38,11 @@ class Home extends Component {
       <div className="shared">
         <Head title="eslbot" />
         <Nav />
-        <Search onSearch={this.onSearch}/>
+        <Search onSearch={this.onSearch} />
         <SearchResults results={this.state.data} />
         <Dimmer inverted active={this.state.loading}>
-            <Loader content="Finding jobs"/>
-          </Dimmer>
+          <Loader content="Finding jobs" />
+        </Dimmer>
       </div>
     )
   }
