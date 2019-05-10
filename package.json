@@ -6,12 +6,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-autocomplete": "^1.8.5",
+    "@types/styled-jsx": "^2.2.8",
+    "@zeit/next-typescript": "^1.1.1",
     "axios": "^0.18.0",
+    "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^8.1.0",
     "react": "^16.8.6",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^16.8.6",
     "semantic-ui-react": "^0.87.1"
+  },
+  "devDependencies": {
+    "@types/next": "^7.0.6"
   }
 }

@@ -58,7 +58,8 @@ class Nav extends Component {
             }
           </ul>
         </ul>
-
+              {/* 
+      // @ts-ignore */}
         <style jsx>{`
           :global(body) {
             margin: 0;

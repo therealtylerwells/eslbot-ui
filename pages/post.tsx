@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Message, Label, Dimmer, Loader } from 'semantic-ui-react';
+import { Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import { Row, Column } from '../components/common/grid';
@@ -76,6 +76,8 @@ class PostJob extends Component {
   render() {
     return (
       <div>
+        {/* 
+        // @ts-ignore */}
         <Head title="eslbot" />
         <Nav />
         <Button onClick={this.testNav}>Test Nav</Button>
@@ -91,14 +93,14 @@ class PostJob extends Component {
                 <Form.Input
                   placeholder="School or Company Name"
                   label="School or Company Name"
-                  onChange={(e) => this.setState({ schoolName: event.target.value })}
+                  onChange={() => this.setState({ schoolName: (event!.target as HTMLInputElement).value })}
                 />
               </Column>
               <Column>
                 <Form.Input
                   placeholder="Your Email Address"
                   label="Your Email Address"
-                  onChange={(e) => this.setState({ email: event.target.value })}
+                  onChange={() => this.setState({ email: (event!.target as HTMLInputElement).value })}
                 />
               </Column>
             </Row>
@@ -107,19 +109,21 @@ class PostJob extends Component {
                 <Form.Input
                   placeholder="Job Title"
                   label="Job Title"
-                  onChange={(e) => this.setState({ jobTitle: event.target.value })}
+                  onChange={() => this.setState({ jobTitle: (event!.target as HTMLInputElement).value })}
                 />
               </Column>
               <Column>
                 <Form.Input
                   placeholder="City"
                   label="City"
-                  onChange={(e) => this.setState({ city: event.target.value })}
+                  onChange={() => this.setState({ city: (event!.target as HTMLInputElement).value })}
                 />
               </Column>
               <Column>
-                <span style={{ 'color': 'rgba(0,0,0,.87)', 'fontSize': '.92857143em', 'fontWeight': '700' }}>Country</span>
+                <span style={{ 'color': 'rgba(0,0,0,.87)', 'fontSize': '.92857143em', 'fontWeight': 'bold' }}>Country</span>
                 <br />
+                {/* 
+                // @ts-ignore */}
                 <Autocomplete
                   autocomplete="off"
                   getItemValue={(item) => item.label}
@@ -130,7 +134,7 @@ class PostJob extends Component {
                     </div>
                   }
                   value={this.state.country}
-                  onChange={(e) => this.setState({ country: e.value })}
+                  onChange={(e) => this.setState({ country: (e as any).value })}
                   onSelect={(val) => this.setState({ country: val })}
                 />
               </Column>
@@ -141,7 +145,7 @@ class PostJob extends Component {
                   style={{ 'width': '100%' }}
                   placeholder="Describe the job. Talk about stuff like salary, class size, and whatnot"
                   label="Job Description"
-                  onChange={(e) => this.setState({ jobDescription: event.target.value })}
+                  onChange={() => this.setState({ jobDescription: (event!.target as HTMLInputElement).value })}
                 />
               </Column>
             </Row>

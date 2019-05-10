@@ -1,56 +1,57 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
+import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
 import Axios from 'axios';
 import Router from 'next/router'
-class Register extends Component {
+
+type loginProps = {
+
+}
+
+type loginState = {
+
+}
+
+class Login extends Component<loginProps, loginState> {
   state = {
     email: '',
     password: '',
-    password2: '',
     errors: false,
-    errorMessage: '',
+    errorMessage: null,
     loading: false,
   }
 
   validateForm = () => {
     if (
       this.state.email.trim().length > 0 &&
-      this.state.password.trim().length > 0 &&
-      this.state.password.trim().length > 0 &&
-      this.state.password.trim() === this.state.password2.trim()
+      this.state.password.trim().length > 0
     ) {
-      console.log('Good submit')
       this.setState({ errors: false })
       return true;
     } else {
-      this.setState({ errors: true, errorMessage: 'All fields are required' })
+      this.setState({ errors: true })
       return false;
     }
   }
 
   handleSubmit = () => {
-    this.setState({ errors: false, errorMessage: '', loading: true})
+    this.setState({ errorMessage: null, errors: false, loading: true })
     const user = {
       "email": this.state.email,
-      "password": this.state.password,
+      "password": this.state.password
     }
     if (this.validateForm()) {
-      Axios.post('http://localhost:4000/user', user)
+      Axios.post('http://localhost:4000/login', user)
         .then(response => {
           if (response.data.success) {
-            localStorage.setItem('userId', response.id)
+            localStorage.setItem('userId', response.data.id)
             Router.push('/account')
           } else {
-            this.setState({ errors: true, errorMessage: response.data.message, loading: false})
+            this.setState({ errorMessage: response.data.message, loading: false })
           }
-        })
-        .catch(error => {
-          console.log(error)
-          this.setState({loading: false})
         })
     } else {
       this.setState({ errors: true, loading: false })
@@ -60,6 +61,8 @@ class Register extends Component {
   render() {
     return (
       <div>
+        {/* 
+        // @ts-ignore */}
         <Head title="login" />
         <Nav />
         <Row>
@@ -70,35 +73,31 @@ class Register extends Component {
                   icon="envelope"
                   placeholder="email"
                   label="Email"
-                  onChange={() => this.setState({ email: event.target.value })}
+                  onChange={() => this.setState({ email: (event!.target as HTMLInputElement).value })}
                 />
                 <Form.Input
                   icon="lock"
                   placeholder="password"
                   label="Password"
                   type="password"
-                  onChange={() => this.setState({ password: event.target.value })}
-                />
-                <Form.Input
-                  icon="lock"
-                  placeholder="Confirm password"
-                  label="Confirm Password"
-                  type="password"
-                  onChange={() => this.setState({ password2: event.target.value })}
+                  onChange={() => this.setState({ password: (event!.target as HTMLInputElement).value })}
                 />
                 <Button onClick={this.handleSubmit}>
-                  Register
+                  Login
               </Button>
-                {this.state.errors ? <Message>{this.state.errorMessage}</Message> : null}
-                {(this.state.password !== this.state.password2) && this.state.password.trim().length > 5 && this.state.password2.trim().length > 5 ? <Message>Password mismatch</Message> : null}
+                {this.state.errors ? <Message>All fields are required</Message> : null}
+                {this.state.errorMessage ? <Message>{this.state.errorMessage}</Message> : null}
               </Column>
             </Form>
           </Column>
+          {/* 
+          // @ts-ignore */}
           <Column />
         </Row>
         <Row>
           <Column>
-            <p>Already registered?  <Link href="/"><a>Login</a></Link></p>
+            <p>Forgot your password?  <Link href="/reset-password"><a>Reset it</a></Link></p>
+            <p>Not signed up?  <Link href="/register"><a>Register</a></Link></p>
           </Column>
         </Row>
         <Dimmer inverted active={this.state.loading}>
@@ -111,4 +110,4 @@ class Register extends Component {
 
 }
 
-export default Register;
+export default Login;

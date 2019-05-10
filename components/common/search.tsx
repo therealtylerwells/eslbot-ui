@@ -1,7 +1,15 @@
-import { Button, Input, Form } from 'semantic-ui-react';
-import React, { Component } from 'react';
+import { Button, Form } from 'semantic-ui-react';
+import React from 'react';
 
-class Search extends Component {
+type searchProps = {
+  onSearch: any;
+}
+
+type searchState = {
+  query: any;
+}
+
+class Search extends React.Component<searchProps, searchState> {
   state = {
     query: '',
   }
@@ -13,12 +21,14 @@ class Search extends Component {
             style={{ 'width': '220px', 'marginRight': '5px', 'position': 'relative', 'top': '1px' }}
             icon="globe"
             placeholder="keyword, city, or country"
-            onChange={() => this.setState({ query: event.target.value })}
+            onChange={() => this.setState({ query: event!.target as HTMLInputElement ? (event!.target as HTMLInputElement).value : ''})}
           />
           <Button onClick={(event) => this.props.onSearch(event, this.state.query)}>
             Search
         </Button>
         </Form>
+              {/* 
+      // @ts-ignore */}
         <style jsx>{`
         .main {
           text-align: center;

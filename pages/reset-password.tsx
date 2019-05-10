@@ -6,6 +6,8 @@ class ResetPassword extends Component {
   render() {
     return (
       <div>
+        {/* 
+        // @ts-ignore */}
         <Head title="eslbot" />
         <Nav />
         <p>Reset Password</p>

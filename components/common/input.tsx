@@ -1,6 +1,15 @@
+import React from 'react';
 import { Form } from 'semantic-ui-react';
+{/* 
+// @ts-ignore */}
+import { string } from 'prop-types';
 
-const input = (props) => {
+interface headProps {
+  placeholder: string;
+  label: string;
+}
+
+const input = (props: headProps) => {
   return (
     <React.Fragment>
       <Form>

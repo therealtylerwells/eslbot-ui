@@ -1,4 +1,8 @@
-const Row = (props) => {
+interface gridProps {
+  children: unknown;
+}
+
+const Row = (props: gridProps) => {
   return (
     <div className="row">
       {props.children}
@@ -13,10 +17,12 @@ const Row = (props) => {
   )
 }
 
-const Column = (props) => {
+const Column = (props: gridProps) => {
   return (
     <div className="column">
       {props.children}
+      {/* 
+      // @ts-ignore */}
     <style jsx>{`
       .column {
         flex: 1;

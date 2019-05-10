@@ -1,10 +1,19 @@
 import Result from './result';
 
-const SearchResults = (props) => {
+interface searchProps {
+  results: any,
+}
+
+
+
+const SearchResults = (props: searchProps) => {
   return (
     <div className="results">
       {props.results.length > 0 ? <p>We found {props.results.length} jobs</p> : null}
-      {props.results.map((job, index) => <Result job={job} key={index}/> )}
+      {/* TODO: Fix type for job */}
+      {props.results.map((job: any, index: number) => <Result job={job} key={index}/> )}
+          {/* 
+      // @ts-ignore */}
     <style jsx>{`
       .results {
         text-align: center;

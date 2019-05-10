@@ -1,18 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import Search from '../components/common/search';
 import SearchResults from '../components/searchResults'
 import fetch from 'isomorphic-unfetch'
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
-class Home extends Component {
+type indexProps = {
+  jobs: any;
+}
+
+type indexState = {
+  data: any;
+  loading: boolean;
+}
+
+class Home extends React.Component<indexProps, indexState> {
   state = {
     loading: false,
     data: this.props.jobs,
   }
 
-  onSearch = (event, query) => {
+  onSearch = (event: any, query: string) => {
     event.preventDefault();
     if (query !== '') {
       this.setState({ loading: true, data: [] })
@@ -36,7 +45,10 @@ class Home extends Component {
   render() {
     return (
       <div className="shared">
+        {/* 
+        // @ts-ignore */
         <Head title="eslbot" />
+        }
         <Nav />
         <Search onSearch={this.onSearch} />
         <SearchResults results={this.state.data} />
@@ -48,6 +60,9 @@ class Home extends Component {
   }
 }
 
+{/* 
+  TODO: Figure out this typescript shit
+// @ts-ignore */}
 Home.getInitialProps = async function () {
   const res = await fetch('http://144.202.96.77:3000/api/jobs?access_token=sGl3FrM4HkmKDzpAVdCwEqC5bjdNX7HfLJUbeq6G6sTvzwHG5wCDQojQyP7UV2XV')
   const data = await res.json()

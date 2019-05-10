@@ -5,6 +5,8 @@ import Nav from '../components/common/nav'
 const Help = () => {
   return (
     <div>
+            {/* 
+      // @ts-ignore */}
       <Head title="login" />
       <Nav />
       <p>Help</p>

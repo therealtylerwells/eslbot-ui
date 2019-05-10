@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import Router from 'next/router'
-import { Header, Icon, Image, Menu, Segment, Sidebar, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 
 class Account extends Component {
