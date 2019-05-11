@@ -6,7 +6,7 @@ type searchProps = {
 }
 
 type searchState = {
-  query: any;
+  query: string;
 }
 
 class Search extends React.Component<searchProps, searchState> {

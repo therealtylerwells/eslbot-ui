@@ -31,7 +31,7 @@ class PostJob extends Component {
 
   handlePostJob = () => {
     this.setState({ loading: true, errors: false, errorMessage: '' })
-        const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postingApproved } = this.state;
+    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postingApproved } = this.state;
     if (
       this.state.schoolName.trim().length > 1 &&
       this.state.email.trim().length > 1 &&
@@ -51,28 +51,27 @@ class PostJob extends Component {
         externalPosting,
         postingApproved
       }
-      Axios.post('http://localhost:4000/jobs', job)
+      Axios.post('http://localhost:4000/job', job)
         .then(response => {
           if (response.data.success) {
-            this.setState({ loading: false })
-            alert('Succcessssss')
-            Router.push({
-              pathname: '/job' + response.data.jobId,
-              query: response.data.jobId,
-            })
+            if (localStorage.getItem('userId')) {
+              setTimeout(() => {
+                this.setState({ loading: false })
+                Router.push('/account')
+              }, 1000)
+            } else {
+              Router.push('/')
+              this.setState({ loading: false })
+            }
           } else {
             this.setState({ loading: false, errorMessage: response.data.message })
           }
         })
-      this.setState({ errors: false })
     } else {
-      this.setState({ errors: true, errorMessage: 'Something broke' })
+      this.setState({ errors: true, errorMessage: 'Something broke', loading: false })
     }
   }
 
-  testNav = () => {
-    Router.push('/job/' + '5cd396143a194a61d3200458')
-  }
   render() {
     return (
       <div>
@@ -80,11 +79,16 @@ class PostJob extends Component {
         // @ts-ignore */}
         <Head title="eslbot" />
         <Nav />
-        <Button onClick={this.testNav}>Test Nav</Button>
         <div>
-          <p>Posting jobs is free.</p>
-          <p>If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting. It will expire in 60 days.</p>
-          <p>If you're registered (it's fast and doesn't even require email verification!), then your posting will go live immediately. You can also view, edit, and delete your job postings at any time.</p>
+          {
+            !localStorage.getItem('userId') ? (
+              <div>
+              <p>Posting jobs is free.</p>
+              <p>If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting. It will expire in 60 days.</p>
+              <p>If you're registered (it's fast and doesn't even require email verification!), then your posting will go live immediately. You can also view, edit, and delete your job postings at any time.</p>
+              </div>
+            ) : <p>Please feed me jobs</p>
+          }
         </div>
         <div>
           <Form>
@@ -156,7 +160,7 @@ class PostJob extends Component {
           </Form>
         </div>
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Finding jobs" />
+          <Loader content="Posting job" />
         </Dimmer>
       </div>
     )

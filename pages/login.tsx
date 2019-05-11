@@ -101,7 +101,7 @@ class Login extends Component<loginProps, loginState> {
           </Column>
         </Row>
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Finding jobs" />
+          <Loader content="Logging in" />
         </Dimmer>
       </div>
     )

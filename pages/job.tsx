@@ -26,7 +26,7 @@ class Job extends Component<jobProps, jobState> {
 /* 
 // @ts-ignore */
 Job.getInitialProps = async ({ query: { id } }) => {
-  const res = await fetch('http://localhost:4000/jobs?id=' + id)
+  const res = await fetch('http://localhost:4000/job?jobId=' + id)
   const data = await res.json()
 
   return {

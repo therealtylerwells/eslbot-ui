@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
+import Fonts from '../../utils/fonts'
 
 const rightLinks = [
   {
@@ -7,25 +8,13 @@ const rightLinks = [
     label: 'help'
   },
   {
-    value: '/post',
-    label: 'post job'
-  },
-  {
     value: '/',
     label: 'forums'
   },
   {
-    value: '/reset-password',
-    label: 'reset password'
+    value: '/post',
+    label: 'post job'
   },
-  // {
-  //   value: '/account',
-  //   label: 'account'
-  // },
-  // {
-  //   value: '/login',
-  //   label: 'login'
-  // }
 
 ]
 
@@ -34,6 +23,7 @@ class Nav extends Component {
     userId: null,
   }
   componentDidMount() {
+    Fonts()
     this.setState({ userId: localStorage.getItem('userId') })
   }
   render() {
@@ -62,8 +52,8 @@ class Nav extends Component {
       // @ts-ignore */}
         <style jsx>{`
           :global(body) {
+            font-family: 'Arial'
             margin: 0;
-            font-family: Lato;
             width: 90%;
             margin: 0 auto;
           }

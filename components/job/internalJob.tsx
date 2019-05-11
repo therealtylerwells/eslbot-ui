@@ -1,6 +1,6 @@
 import Layout from '../common/layout';
 
-const internalJob = (props) => {
+const internalJob = (props: any) => {
   return (
     <Layout>
       <p>Internal Job</p>

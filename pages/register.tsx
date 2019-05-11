@@ -23,7 +23,6 @@ class Register extends Component {
       this.state.password.trim().length > 0 &&
       this.state.password.trim() === this.state.password2.trim()
     ) {
-      console.log('Good submit')
       this.setState({ errors: false })
       return true;
     } else {
@@ -49,7 +48,7 @@ class Register extends Component {
           }
         })
         .catch(error => {
-          console.log(error)
+          alert('Error: ' + error);
           this.setState({loading: false})
         })
     } else {
@@ -106,7 +105,7 @@ class Register extends Component {
           </Column>
         </Row>
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Finding jobs" />
+          <Loader content="Registering" />
         </Dimmer>
       </div>
     )

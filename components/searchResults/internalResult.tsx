@@ -1,35 +1,36 @@
 import Link from 'next/link'
+import { JobType } from '../../types/types';
 
-interface resultProps {
-  job: any,
-  key: any,
+interface internalResultProps {
+  job: JobType,
+  key: number,
 }
 
-const Result = (props: resultProps) => {
+const InternalResult = (props: internalResultProps) => {
   return (
     <div className="result-container">
       <div className="row">
         <div className="column">
           {/* <p><strong>External Link</strong></p> */}
-          <Link href={{ pathname: '/job', query: { id: '5cd396143a194a61d3200458'}}} as='/job/5cd396143a194a61d3200458'><a>Test</a></Link>
+          <Link href={{ pathname: '/job', query: { id: props.job._id } }} as={`/job/${props.job._id}`}><a>View</a></Link>
         </div>
       </div>
       <div className="row">
         <div className="column">
-          <p>{props.job.text}</p>
+          <p>{props.job.jobTitle}</p>
         </div>
       </div>
       <div className="row">
         <div className="column">
-          <p>{props.job.location}</p>
+          <p>{props.job.country}</p>
         </div>
       </div>
       <div className="row">
         <div className="column">
-          <p>Posted {new Date(props.job.dateAdded).toLocaleDateString('en-US')}</p>
+          <p>Posted {new Date(props.job.createdAt as any).toLocaleDateString('en-US')}</p>
         </div>
       </div>
-            {/* 
+      {/* 
       // @ts-ignore */}
       <style jsx>{`
       .result-container {
@@ -54,4 +55,4 @@ const Result = (props: resultProps) => {
   )
 }
 
-export default Result;
+export default InternalResult;
