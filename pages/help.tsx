@@ -3,6 +3,7 @@ import Head from '../components/common/head'
 import Nav from '../components/common/nav'
 import { Accordion, Icon } from 'semantic-ui-react'
 import Link from 'next/link'
+import Layout from '../components/common/layout';
 
 class Help extends Component {
   state = {
@@ -20,11 +21,9 @@ class Help extends Component {
   render() {
     const { activeIndex } = this.state;
     return (
-      <div>
+      <Layout title="help">
         {/* 
       // @ts-ignore */}
-        <Head title="login" />
-        <Nav />
         <Accordion>
           <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
             <Icon name='dropdown' />
@@ -101,7 +100,7 @@ class Help extends Component {
           </Accordion.Content>
 
         </Accordion>
-      </div>
+        </Layout>
     )
   }
 }

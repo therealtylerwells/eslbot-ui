@@ -4,17 +4,20 @@ import Head from './head';
 
 interface layoutProps {
   children: unknown;
+  title?: string;
 }
 const layout = (props: layoutProps) => {
   return (
-    <React.Fragment>
+    <div style={{'width':'90%', 'margin': '0 auto'}}>
       <Nav />
-            {/* 
+      {/* 
       // @ts-ignore */}
-      <Head />
+      <Head title={props.title}/>
       {props.children}
-      <p>Footer</p>
-    </React.Fragment>
+      <div style={{'marginTop':'500px'}}>
+        <span>Footer</span>
+      </div>
+    </div>
   )
 }
 

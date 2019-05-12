@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
+import Layout from '../components/common/layout';
 import { Row, Column } from '../components/common/grid';
-import countryOptions from '../constants/countryOptions';
 import Autocomplete from 'react-autocomplete';
 import Axios from 'axios';
 import Router from 'next/router'
+import { matchStateToTerm, getStates } from '../utils/countrySelect';
 
 class PostJob extends Component {
   state = {
@@ -20,12 +19,15 @@ class PostJob extends Component {
     jobPosterId: undefined,
     externalPosting: false,
     postingApproved: false,
-    loading: false,
+    loading: true,
   }
 
-  componentDidMount() {
-    if (localStorage.getItem('userId')) {
-      this.setState({ postingApproved: true, jobPosterId: localStorage.getItem('userId') })
+  async componentDidMount(){
+    const jobPosterId = await localStorage.getItem('userId')
+    if (jobPosterId) {
+      this.setState({ postingApproved: true, loading: false, jobPosterId: jobPosterId })
+    } else {
+      this.setState({ loading: false, externalPosting: true })
     }
   }
 
@@ -72,20 +74,18 @@ class PostJob extends Component {
     }
   }
 
-  render() {
-    return (
-      <div>
+  render(){
+    return !this.state.loading ? (
+      <Layout title="post a job | eslbot">
         {/* 
         // @ts-ignore */}
-        <Head title="eslbot" />
-        <Nav />
         <div>
           {
-            !localStorage.getItem('userId') ? (
+            !this.state.jobPosterId ? (
               <div>
-              <p>Posting jobs is free.</p>
-              <p>If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting. It will expire in 60 days.</p>
-              <p>If you're registered (it's fast and doesn't even require email verification!), then your posting will go live immediately. You can also view, edit, and delete your job postings at any time.</p>
+                <p>Posting jobs is free.</p>
+                <p>If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting. It will expire in 60 days.</p>
+                <p>If you're registered (it's fast and doesn't even require email verification!), then your posting will go live immediately. You can also view, edit, and delete your job postings at any time.</p>
               </div>
             ) : <p>Please feed me jobs</p>
           }
@@ -129,24 +129,32 @@ class PostJob extends Component {
                 {/* 
                 // @ts-ignore */}
                 <Autocomplete
-                  autocomplete="off"
-                  getItemValue={(item) => item.label}
-                  items={countryOptions}
-                  renderItem={(item, isHighlighted) =>
-                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                      {item.label}
-                    </div>
-                  }
                   value={this.state.country}
-                  onChange={(e) => this.setState({ country: (e as any).value })}
-                  onSelect={(val) => this.setState({ country: val })}
+                  inputProps={{ id: 'states-autocomplete' }}
+                  wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+                  items={getStates()}
+                  autoHighlight
+                  getItemValue={(item) => item.name}
+                  shouldItemRender={matchStateToTerm}
+                  onChange={(event, country) => this.setState({ country })}
+                  onSelect={country => this.setState({ country })}
+                  renderMenu={children => (
+                    <div className="menu">
+                      {children}
+                    </div>
+                  )}
+                  renderItem={(item, isHighlighted) => (
+                    <div
+                      className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                      key={item.abbr}
+                    >{item.name}</div>
+                  )}
                 />
               </Column>
             </Row>
             <Row>
               <Column>
                 <Form.TextArea
-                  style={{ 'width': '100%' }}
                   placeholder="Describe the job. Talk about stuff like salary, class size, and whatnot"
                   label="Job Description"
                   onChange={() => this.setState({ jobDescription: (event!.target as HTMLInputElement).value })}
@@ -162,8 +170,18 @@ class PostJob extends Component {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Posting job" />
         </Dimmer>
-      </div>
-    )
+        <style jsx>{`
+          .item-highlighted {
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+          }
+        `}</style>
+      </Layout>
+    ) : 
+    <Dimmer inverted active>
+    <Loader content="Loading..." />
+  </Dimmer>
   }
 }
 

@@ -12,7 +12,7 @@ export interface JobType {
   email?: string,
   jobTitle?: string,
   city?: string,
-  country?: string,
+  country: string,
   jobDescription?: string,
   // If posted by registered user ...
   jobPosterId?: string,

@@ -53,8 +53,6 @@ class Nav extends Component {
         <style jsx>{`
           :global(body) {
             font-family: 'Arial'
-            margin: 0;
-            width: 90%;
             margin: 0 auto;
           }
           nav {
@@ -65,7 +63,7 @@ class Nav extends Component {
             justify-content: space-between;
           }
           nav > ul {
-            padding: 4px 16px;
+            padding: 4px 0px;
           }
           li {
             display: flex;

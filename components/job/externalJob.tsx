@@ -1,10 +1,10 @@
 import Layout from '../common/layout';
+import { Header } from 'semantic-ui-react'
 
 const externalJob = (props: any) => {
   return (
     <Layout>
-      <p>External Job</p>
-      <p>{props.job}</p>
+      <Header>{props.job.name}</Header>
     </Layout>
   )
 }

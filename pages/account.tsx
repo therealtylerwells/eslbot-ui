@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
 import Router from 'next/router'
 import { Menu, Dimmer, Loader, Confirm } from 'semantic-ui-react'
 import Axios from 'axios';
 import { HTTPResponseType, JobType } from '../types/types';
 import MyJobs from '../components/account/myJobs';
 import ManageAccount from '../components/account/manageAccount';
+import Layout from '../components/common/layout';
 
 type accountProps = {
 
@@ -76,18 +75,9 @@ class Account extends Component<accountProps, accountState> {
   render() {
     const { activeItem } = this.state;
     return (
-      <div>
+      <Layout title="account">
         {/* 
         // @ts-ignore */}
-        <Head title="eslbot" />
-        <Nav />
-        <Confirm 
-          open={this.state.isConfirmOpen} 
-          onCancel={this.handleCancel} 
-          onConfirm={this.handleConfirm} 
-          header="This will permanently delete this job posting"
-          size='tiny'
-          />
         <Menu>
 
           <Menu.Item
@@ -107,11 +97,20 @@ class Account extends Component<accountProps, accountState> {
         </Menu.Item>
         </Menu>
         {this.state.activeItem === 'myJobs' ? (
+          <div>
           <MyJobs
             handleDelete={this.handleDelete}
             handleRenew={this.handleRenew}
             jobs={this.state.userJobs}
           />
+          <Confirm 
+          open={this.state.isConfirmOpen} 
+          onCancel={this.handleCancel} 
+          onConfirm={this.handleConfirm} 
+          header="This will permanently delete this job posting"
+          size='tiny'
+          />
+          </div>
         ) : null}
         {this.state.activeItem === 'manageAccount' ? (
           <ManageAccount handleLogout={this.handleLogout}/>
@@ -119,7 +118,7 @@ class Account extends Component<accountProps, accountState> {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Loading account" />
         </Dimmer>
-      </div>
+      </Layout>
     )
   }
 }

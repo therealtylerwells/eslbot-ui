@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
+import Layout from '../components/common/layout';
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
 import Axios from 'axios';
 import Router from 'next/router'
+
 class Register extends Component {
   state = {
     email: '',
@@ -58,11 +58,9 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
+      <Layout title="register">
         {/* 
         // @ts-ignore */}
-        <Head title="login" />
-        <Nav />
         <Row>
           <Column>
             <Form>
@@ -107,7 +105,7 @@ class Register extends Component {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Registering" />
         </Dimmer>
-      </div>
+      </Layout>
     )
 
   }

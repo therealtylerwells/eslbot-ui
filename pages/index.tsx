@@ -1,6 +1,5 @@
 import React from 'react'
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
+import Layout from '../components/common/layout'
 import Search from '../components/common/search';
 // @ts-ignore
 import SearchResults from '../components/searchResults'
@@ -46,18 +45,16 @@ class Home extends React.Component<indexProps, indexState> {
 
   render() {
     return (
-      <div className="shared">
+      <Layout title="eslbot">
         {/* 
         // @ts-ignore */
-        <Head title="eslbot" />
         }
-        <Nav />
         <Search onSearch={this.onSearch} />
         <SearchResults results={this.state.data} />
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Finding jobs" />
         </Dimmer>
-      </div>
+      </Layout>
     )
   }
 }

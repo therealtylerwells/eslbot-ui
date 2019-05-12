@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
+import Layout from '../components/common/layout';
 
 class ResetPassword extends Component {
   render() {
     return (
-      <div>
+      <Layout title="eslbot">
         {/* 
         // @ts-ignore */}
-        <Head title="eslbot" />
-        <Nav />
         <p>Reset Password</p>
-      </div>
+      </Layout>
     )
   }
 }

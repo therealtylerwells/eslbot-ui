@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
 import Axios from 'axios';
 import Router from 'next/router'
+import Layout from '../components/common/layout';
 
 type loginProps = {
 
@@ -60,11 +59,9 @@ class Login extends Component<loginProps, loginState> {
 
   render() {
     return (
-      <div>
+      <Layout title="login">
         {/* 
         // @ts-ignore */}
-        <Head title="login" />
-        <Nav />
         <Row>
           <Column>
             <Form>
@@ -103,7 +100,7 @@ class Login extends Component<loginProps, loginState> {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Logging in" />
         </Dimmer>
-      </div>
+      </Layout>
     )
 
   }
