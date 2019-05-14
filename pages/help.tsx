@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Head from '../components/common/head'
-import Nav from '../components/common/nav'
 import { Accordion, Icon } from 'semantic-ui-react'
 import Link from 'next/link'
-import Layout from '../components/common/layout';
 
 class Help extends Component {
   state = {
@@ -21,7 +18,7 @@ class Help extends Component {
   render() {
     const { activeIndex } = this.state;
     return (
-      <Layout title="help">
+      <div>
         {/* 
       // @ts-ignore */}
         <Accordion>
@@ -100,7 +97,7 @@ class Help extends Component {
           </Accordion.Content>
 
         </Accordion>
-        </Layout>
+        </div>
     )
   }
 }

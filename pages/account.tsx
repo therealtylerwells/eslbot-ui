@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import Router from 'next/router'
 import { Menu, Dimmer, Loader, Confirm } from 'semantic-ui-react'
 import Axios from 'axios';
 import { HTTPResponseType, JobType } from '../types/types';
 import MyJobs from '../components/account/myJobs';
 import ManageAccount from '../components/account/manageAccount';
-import Layout from '../components/common/layout';
 
 type accountProps = {
-
+  handleLogout: any,
 }
 
 type accountState = {
@@ -59,13 +57,11 @@ class Account extends Component<accountProps, accountState> {
       .catch(error => alert('Error: ' + error))
   }
 
-  handleLogout = () => {
-    localStorage.removeItem('userId');
-    Router.push('/')
-  }
-
-  handleRenew = () => {
-    alert('renew')
+  handleRenew = (jobId: string) => {
+    Axios.put('http://localhost:4000/renew?jobId=' + jobId)
+      .then(response => {
+        console.log(response);
+      })
   }
 
   handleDelete = (jobId: string) => {
@@ -75,7 +71,7 @@ class Account extends Component<accountProps, accountState> {
   render() {
     const { activeItem } = this.state;
     return (
-      <Layout title="account">
+      <div>
         {/* 
         // @ts-ignore */}
         <Menu>
@@ -109,16 +105,17 @@ class Account extends Component<accountProps, accountState> {
           onConfirm={this.handleConfirm} 
           header="This will permanently delete this job posting"
           size='tiny'
+          style={{'marginTop':'-150px'}}
           />
           </div>
         ) : null}
         {this.state.activeItem === 'manageAccount' ? (
-          <ManageAccount handleLogout={this.handleLogout}/>
+          <ManageAccount handleLogout={this.props.handleLogout}/>
         ) : null}
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Loading account" />
         </Dimmer>
-      </Layout>
+      </div>
     )
   }
 }

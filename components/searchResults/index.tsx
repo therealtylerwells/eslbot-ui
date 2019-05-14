@@ -9,8 +9,8 @@ interface searchProps {
 
 
 const SearchResults = (props: searchProps) => {
-  const jobs = props.results.response;
-  return (
+  const jobs = props.results;
+  return props.results ? (
     <div className="results">
       {jobs.length > 0 ? <p>We found {jobs.length} jobs</p> : null}
       {jobs.map((job: JobType, index: number) => {
@@ -25,7 +25,7 @@ const SearchResults = (props: searchProps) => {
       }
     `}</style>
     </div>
-  )
+  ) : null
 }
 
 export default SearchResults;

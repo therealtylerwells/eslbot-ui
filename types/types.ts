@@ -18,6 +18,7 @@ export interface JobType {
   jobPosterId?: string,
   dateAdded?: Date,
   createdAt?: Date,
+  updatedAt?: Date,
 }
 
 export interface HTTPResponseType {

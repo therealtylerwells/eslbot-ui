@@ -12,6 +12,7 @@ const MyJobs = (props: any) => {
           <Table.HeaderCell>Country</Table.HeaderCell>
           <Table.HeaderCell>Job Title</Table.HeaderCell>
           <Table.HeaderCell>Job Description</Table.HeaderCell>
+          <Table.HeaderCell style={{ 'textAlign': 'center' }}>Edit</Table.HeaderCell>
           <Table.HeaderCell style={{ 'textAlign': 'center' }}>View</Table.HeaderCell>
           <Table.HeaderCell style={{ 'textAlign': 'center' }}>Renew</Table.HeaderCell>
           <Table.HeaderCell style={{ 'textAlign': 'center' }}>Delete</Table.HeaderCell>
@@ -25,7 +26,7 @@ const MyJobs = (props: any) => {
               job={job}
               key={index}
               handleDelete={props.handleDelete}
-              handleRenew={props.handleRenew}
+              handleRenew={() => props.handleRenew(job._id)}
             />
           )
         })}

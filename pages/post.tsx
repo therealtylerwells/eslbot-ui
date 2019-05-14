@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react';
-import Layout from '../components/common/layout';
 import { Row, Column } from '../components/common/grid';
 import Autocomplete from 'react-autocomplete';
 import Axios from 'axios';
 import Router from 'next/router'
 import { matchStateToTerm, getStates } from '../utils/countrySelect';
+import InternalResult from '../components/searchResults/internalResult';
 
 class PostJob extends Component {
   state = {
     errors: false,
-    schoolName: '',
+    schoolName: "it's good if your name can be found on google",
     email: '',
-    jobTitle: '',
-    city: '',
-    country: '',
+    jobTitle: 'here, you get 150 characters to write an eye-catching and informative headline that will appear in search results. that is about this many characters.',
+    city: 'Anywhere',
+    country: 'Japan',
     jobDescription: '',
     jobPosterId: undefined,
     externalPosting: false,
     postingApproved: false,
     loading: true,
+    postedDate: new Date(),
   }
 
   async componentDidMount(){
@@ -33,7 +34,7 @@ class PostJob extends Component {
 
   handlePostJob = () => {
     this.setState({ loading: true, errors: false, errorMessage: '' })
-    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postingApproved } = this.state;
+    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postedDate, postingApproved } = this.state;
     if (
       this.state.schoolName.trim().length > 1 &&
       this.state.email.trim().length > 1 &&
@@ -51,7 +52,8 @@ class PostJob extends Component {
         jobDescription,
         jobPosterId,
         externalPosting,
-        postingApproved
+        postingApproved,
+        postedDate,
       }
       Axios.post('http://localhost:4000/job', job)
         .then(response => {
@@ -76,7 +78,7 @@ class PostJob extends Component {
 
   render(){
     return !this.state.loading ? (
-      <Layout title="post a job | eslbot">
+      <div>
         {/* 
         // @ts-ignore */}
         <div>
@@ -136,7 +138,11 @@ class PostJob extends Component {
                   autoHighlight
                   getItemValue={(item) => item.name}
                   shouldItemRender={matchStateToTerm}
-                  onChange={(event, country) => this.setState({ country })}
+                  onChange={(event, country) => {
+                    // using event so typescript will leave me alone wtf typescript
+                    typeof event
+                    this.setState({ country });
+                }}
                   onSelect={country => this.setState({ country })}
                   renderMenu={children => (
                     <div className="menu">
@@ -167,6 +173,16 @@ class PostJob extends Component {
             </div>
           </Form>
         </div>
+        <h3 style={{'textAlign':'center'}}>Search Result Preview</h3>
+        <InternalResult job={{
+          _id: 'like anyone will ever see this',
+          link: undefined,
+          country: this.state.country,
+          city: this.state.city,
+          jobTitle: this.state.jobTitle,
+          name: this.state.schoolName,
+          updatedAt: new Date(),
+        }}/>
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Posting job" />
         </Dimmer>
@@ -177,7 +193,7 @@ class PostJob extends Component {
             cursor: pointer;
           }
         `}</style>
-      </Layout>
+      </div>
     ) : 
     <Dimmer inverted active>
     <Loader content="Loading..." />

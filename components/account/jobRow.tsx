@@ -3,9 +3,10 @@ import Link from 'next/link';
 
 const JobRow = (props: any) => {
   const { job } = props;
+  console.log('job', job)
   return (
     <Table.Row>
-      <Table.Cell style={{ 'textAlign': 'center' }}>{new Date(job.createdAt).toLocaleDateString('en-US')}</Table.Cell>
+      <Table.Cell style={{ 'textAlign': 'center' }}>{new Date(job.updatedAt).toLocaleDateString()}</Table.Cell>
       <Table.Cell>{job.city}</Table.Cell>
       <Table.Cell>{job.country}</Table.Cell>
       <Table.Cell>
@@ -16,8 +17,14 @@ const JobRow = (props: any) => {
       </Table.Cell>
       <Table.Cell>
         <Popup
-          content={job.jobDescription.substring(0, 500 ) + '. . .'}
+          content={job.jobDescription.substring(0, 500) + '. . .'}
           trigger={<span>{job.jobDescription.substring(0, 20)}</span>}
+        />
+      </Table.Cell>
+      <Table.Cell style={{ 'textAlign': 'center' }}>
+        <Popup
+          content={"Edit your job post. If your posting is two weeks old, then this will update its post date to today as well."}
+          trigger={<button onClick={props.handleRenew} style={{ border: 'none', cursor: 'pointer' }}><Icon name="pencil" color="black" /></button>}
         />
       </Table.Cell>
       <Table.Cell style={{ 'textAlign': 'center' }}>
@@ -40,7 +47,7 @@ const JobRow = (props: any) => {
         />
       </Table.Cell>
     </Table.Row>
-    
+
   )
 }
 

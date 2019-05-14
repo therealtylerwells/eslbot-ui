@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
-import Layout from '../components/common/layout';
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
 import Axios from 'axios';
@@ -58,7 +57,7 @@ class Register extends Component {
 
   render() {
     return (
-      <Layout title="register">
+      <div>
         {/* 
         // @ts-ignore */}
         <Row>
@@ -105,7 +104,7 @@ class Register extends Component {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Registering" />
         </Dimmer>
-      </Layout>
+      </div>
     )
 
   }

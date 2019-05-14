@@ -1,14 +1,18 @@
 import Link from 'next/link'
 import { JobType } from '../../types/types';
 import { Flag, Icon, Divider } from 'semantic-ui-react';
+{/* 
+      // @ts-ignore */}
 import TimeAgo from 'javascript-time-ago'
+{/* 
+      // @ts-ignore */}
 import en from 'javascript-time-ago/locale/en'
 
 TimeAgo.addLocale(en)
 
 interface internalResultProps {
   job: JobType,
-  key: number,
+  key?: number,
 }
 
 const InternalResult = (props: internalResultProps) => {
@@ -24,9 +28,10 @@ const InternalResult = (props: internalResultProps) => {
       <div className="row">
         <div className="column">
           <p><Icon name="briefcase" /> {props.job.name}<br />
+            {/* 
+      // @ts-ignore */}
             <Flag name={props.job.country.toLowerCase()} />{props.job.city}, {props.job.country}<br />
-            {/* <Icon name="calendar" />Posted {new Date(props.job.createdAt as any).toLocaleDateString('en-US')}</p> */}
-            <Icon name="calendar" />{timeAgo.format(new Date(props.job.createdAt as any))}</p>
+            <Icon name="calendar" />{timeAgo.format(new Date(props.job.updatedAt as any))}</p>
         </div>
       </div>
       {/* 

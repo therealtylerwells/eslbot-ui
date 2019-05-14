@@ -18,13 +18,20 @@ const rightLinks = [
 
 ]
 
-class Nav extends Component {
+interface navProps {
+  userId: any;
+}
+
+interface navState {
+
+}
+
+class Nav extends Component<navProps, navState> {
   state = {
     userId: null,
   }
   componentDidMount() {
     Fonts()
-    this.setState({ userId: localStorage.getItem('userId') })
   }
   render() {
     return (
@@ -39,7 +46,7 @@ class Nav extends Component {
             {rightLinks.map((link, index) => {
               return <li key={index}><Link href={link.value}><a>{link.label}</a></Link></li>
             })}
-            {this.state.userId ?
+            {this.props.userId ?
               <div>
                 <li><Link href="/account"><a>account</a></Link></li>
               </div>

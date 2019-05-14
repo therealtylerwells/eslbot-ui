@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
-import Axios from 'axios';
-import Router from 'next/router'
-import Layout from '../components/common/layout';
 
 type loginProps = {
-
+  handleLogin: any;
 }
 
 type loginState = {
@@ -43,15 +40,7 @@ class Login extends Component<loginProps, loginState> {
       "password": this.state.password
     }
     if (this.validateForm()) {
-      Axios.post('http://localhost:4000/login', user)
-        .then(response => {
-          if (response.data.success) {
-            localStorage.setItem('userId', response.data.id)
-            Router.push('/account')
-          } else {
-            this.setState({ errorMessage: response.data.message, loading: false })
-          }
-        })
+      this.props.handleLogin(user);
     } else {
       this.setState({ errors: true, loading: false })
     }
@@ -59,7 +48,7 @@ class Login extends Component<loginProps, loginState> {
 
   render() {
     return (
-      <Layout title="login">
+      <div>
         {/* 
         // @ts-ignore */}
         <Row>
@@ -100,7 +89,7 @@ class Login extends Component<loginProps, loginState> {
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Logging in" />
         </Dimmer>
-      </Layout>
+      </div>
     )
 
   }
