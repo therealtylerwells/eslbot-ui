@@ -27,7 +27,7 @@ class Search extends React.Component<searchProps, searchState> {
             Search
         </Button>
         </Form>
-              {/* 
+      {/* 
       // @ts-ignore */}
         <style jsx>{`
         .main {

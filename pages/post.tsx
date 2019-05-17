@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react';
+import { Form, Button, Message, Dimmer, Loader, Flag } from 'semantic-ui-react';
 import { Row, Column } from '../components/common/grid';
 import Autocomplete from 'react-autocomplete';
 import Axios from 'axios';
@@ -20,10 +20,10 @@ class PostJob extends Component {
     externalPosting: false,
     postingApproved: false,
     loading: true,
-    postedDate: new Date(),
+    dateAdded: new Date(),
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     const jobPosterId = await localStorage.getItem('userId')
     if (jobPosterId) {
       this.setState({ postingApproved: true, loading: false, jobPosterId: jobPosterId })
@@ -34,7 +34,7 @@ class PostJob extends Component {
 
   handlePostJob = () => {
     this.setState({ loading: true, errors: false, errorMessage: '' })
-    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, postedDate, postingApproved } = this.state;
+    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, dateAdded, postingApproved } = this.state;
     if (
       this.state.schoolName.trim().length > 1 &&
       this.state.email.trim().length > 1 &&
@@ -53,7 +53,7 @@ class PostJob extends Component {
         jobPosterId,
         externalPosting,
         postingApproved,
-        postedDate,
+        dateAdded,
       }
       Axios.post('http://localhost:4000/job', job)
         .then(response => {
@@ -76,7 +76,7 @@ class PostJob extends Component {
     }
   }
 
-  render(){
+  render() {
     return !this.state.loading ? (
       <div>
         {/* 
@@ -142,7 +142,7 @@ class PostJob extends Component {
                     // using event so typescript will leave me alone wtf typescript
                     typeof event
                     this.setState({ country });
-                }}
+                  }}
                   onSelect={country => this.setState({ country })}
                   renderMenu={children => (
                     <div className="menu">
@@ -153,7 +153,10 @@ class PostJob extends Component {
                     <div
                       className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
                       key={item.abbr}
-                    >{item.name}</div>
+                    >
+                      <Flag name={item.abbr} />
+                      {item.name}
+                    </div>
                   )}
                 />
               </Column>
@@ -173,7 +176,7 @@ class PostJob extends Component {
             </div>
           </Form>
         </div>
-        <h3 style={{'textAlign':'center'}}>Search Result Preview</h3>
+        <h3 style={{ 'textAlign': 'center' }}>Search Result Preview</h3>
         <InternalResult job={{
           _id: 'like anyone will ever see this',
           link: undefined,
@@ -182,22 +185,25 @@ class PostJob extends Component {
           jobTitle: this.state.jobTitle,
           name: this.state.schoolName,
           updatedAt: new Date(),
-        }}/>
+        }} />
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Posting job" />
         </Dimmer>
         <style jsx>{`
           .item-highlighted {
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.05em;
             cursor: pointer;
+            padding: 2.5px 0;
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
           }
         `}</style>
       </div>
-    ) : 
-    <Dimmer inverted active>
-    <Loader content="Loading..." />
-  </Dimmer>
+    ) :
+      <Dimmer inverted active>
+        <Loader content="Loading..." />
+      </Dimmer>
   }
 }
 

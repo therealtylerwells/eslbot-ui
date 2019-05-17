@@ -1,4 +1,4 @@
-import { Divider, Icon, Flag } from 'semantic-ui-react';
+import { Divider, Icon, Flag, Button } from 'semantic-ui-react';
 {/* 
 // @ts-ignore */}
 import TimeAgo from 'javascript-time-ago'
@@ -20,9 +20,11 @@ const internalJob = (props: any) => {
         <Icon name="clock" style={{'marginLeft':'6px'}}/><span className="postedDate">Posted {new Date(props.job.updatedAt).toLocaleDateString('en-US')}</span>
       </div>
       <Divider />
-      <div>
+      <Button primary onClick={props.handleApply}>Apply Now</Button>
+      <div style={{'margin':'10px 0'}}>
         <p style={{ 'whiteSpace': 'pre-wrap' }}>{props.job.jobDescription}</p>
       </div>
+      <Button primary onClick={props.handleApply}>Apply Now</Button>
       <style jsx>{`
         .jobTitle {
           font-size: 38px;

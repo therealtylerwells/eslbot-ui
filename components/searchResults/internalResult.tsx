@@ -21,7 +21,6 @@ const InternalResult = (props: internalResultProps) => {
     <div className="result-container">
       <div className="row">
         <div className="column">
-          {/* <p><strong>External Link</strong></p> */}
           <Link href={{ pathname: '/job', query: { id: props.job._id } }} as={`/job/${props.job._id}`}><a>{props.job.jobTitle}</a></Link>
         </div>
       </div>
@@ -40,21 +39,12 @@ const InternalResult = (props: internalResultProps) => {
       <style jsx>{`
       a {
         font-size: 24px;
-        line-height: 22px;
         color: #0074D9;
       }
       .result-container {
         display: flex;
         flex-direction: column;
-        height: 150px;
-        margin: 0 0 20px 0;
-        padding: 20px 0 20px 20px;
         font-size: 16px;
-      }
-      .result-container:hover {
-        -webkit-box-shadow: inset 10px 0px 0px 0px rgba(0,116,217,1);
-        -moz-box-shadow: inset 10px 0px 0px 0px rgba(0,116,217,1);
-        box-shadow: inset 10px 0px 0px 0px rgba(0,116,217,1);
       }
       .row {
         display: flex;

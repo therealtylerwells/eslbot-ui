@@ -15,9 +15,6 @@ const layout = (props: layoutProps) => {
       // @ts-ignore */}
       <Head title={props.title}/>
       {props.children}
-      <div style={{'marginTop':'500px'}}>
-        <span>Footer</span>
-      </div>
     </div>
   )
 }

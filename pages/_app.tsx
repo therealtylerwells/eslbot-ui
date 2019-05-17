@@ -53,7 +53,7 @@ class MyApp extends App {
 }
 
 MyApp.getInitialProps = async function () {
-  const res = await fetch('http://localhost:4000/search?param="China"')
+  const res = await fetch('http://localhost:4000/get-recent-jobs')
   const data = await res.json()
 
   return {
