@@ -1,31 +1,39 @@
-import { JobType } from '../../types/types';
-import InternalResult from './internalResult';
-import ExternalResult from './externalResult';
+import { JobType } from "../../types/types";
+import InternalResult from "./internalResult";
+import ExternalResult from "./externalResult";
 
 interface searchProps {
-  results: any,
+  results: any;
 }
-
-
 
 const SearchResults = (props: searchProps) => {
   const jobs = props.results;
   return props.results ? (
     <div className="results">
-      {jobs.length > 0 ? <p>We found {jobs.length} jobs</p> : null}
+      <p>
+        {jobs.length === 50
+          ? "Recently posted jobs"
+          : jobs.length === 0
+          ? "We found no jobs. Try searching again"
+          : `We found ${jobs.length} search reuslts`}
+      </p>
       {jobs.map((job: JobType, index: number) => {
-        return job.externalPosting ? <ExternalResult job={job} key={index}/> : <InternalResult job={job} key={index}/>
-      } )}
+        return !job.hasOwnProperty("externalPosting") ? (
+          <ExternalResult job={job} key={index} />
+        ) : (
+          <InternalResult job={job} key={index} />
+        );
+      })}
       {/* 
       // @ts-ignore */}
-    <style jsx>{`
-      .results {
-        text-align: center;
-        margin-top: 20px;
-      }
-    `}</style>
+      <style jsx>{`
+        .results {
+          text-align: center;
+          margin-top: 20px;
+        }
+      `}</style>
     </div>
-  ) : null
-}
+  ) : null;
+};
 
 export default SearchResults;

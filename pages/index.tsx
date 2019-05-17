@@ -2,9 +2,9 @@ import React from 'react'
 import Search from '../components/common/search';
 // @ts-ignore
 import SearchResults from '../components/searchResults'
-import fetch from 'isomorphic-unfetch'
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { HTTPResponseType } from '../types/types';
+import Axios from 'axios';
 
 type indexProps = {
   response: HTTPResponseType;
@@ -17,7 +17,7 @@ type indexState = {
 
 class Home extends React.Component<indexProps, indexState> {
   state = {
-    loading: false,
+    loading: true,
     jobs: [],
   }
 
@@ -26,39 +26,37 @@ class Home extends React.Component<indexProps, indexState> {
   }
 
   onSearch = (event: any, query: string) => {
+    this.setState({loading: true})
     event.preventDefault();
     if (query !== '') {
       this.setState({ loading: true, jobs: [] })
-      fetch('https://api.eslbot.com/search?param=' + query, {
-        headers: {
-          Accept: 'application/json'
-        }
-      })
+      Axios.get('http://localhost:4000/search?param=' + query)
         .then(response => {
-          return response.json()
+          if (response.data.success) {
+            this.setState({ jobs: response.data.response, loading: false })
+          } else {
+            this.setState({ loading: false })
+          }
         })
-        .then(json => {
-          this.setState({ jobs: json, loading: false })
-        })
-        .catch(error => alert('Error: ' + error))
     } else {
       alert('derp')
+      this.setState({ loading: false })
     }
   }
 
   render() {
-    return !this.state.loading ? (
+    return (
       <div>
         {/* 
         // @ts-ignore */
         }
         <Search onSearch={this.onSearch} />
-        <SearchResults results={this.state.jobs} />
+        {!this.state.loading ? <SearchResults results={this.state.jobs} /> : null}
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Finding jobs" />
+          <Loader content="Doing robot things" />
         </Dimmer>
       </div>
-    ) : null
+    )
   }
 }
 
