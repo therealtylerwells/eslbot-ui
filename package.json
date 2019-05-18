@@ -19,6 +19,7 @@
     "react": "^16.8.6",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^16.8.6",
+    "react-toast-notifications": "^1.4.0",
     "semantic-ui-react": "^0.87.1"
   },
   "devDependencies": {

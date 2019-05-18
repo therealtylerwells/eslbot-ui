@@ -1,63 +1,74 @@
-import React from 'react'
-import Search from '../components/common/search';
+import React from "react";
+import Search from "../components/common/search";
 // @ts-ignore
-import SearchResults from '../components/searchResults'
-import { Dimmer, Loader } from 'semantic-ui-react';
-import { HTTPResponseType } from '../types/types';
-import Axios from 'axios';
+import SearchResults from "../components/searchResults";
+import { Dimmer, Loader, Image } from "semantic-ui-react";
+import { HTTPResponseType } from "../types/types";
+import Axios from "axios";
+// @ts-ignore
+import { withToastManager } from 'react-toast-notifications';
 
 type indexProps = {
   response: HTTPResponseType;
-}
+};
 
 type indexState = {
   jobs: any;
   loading: boolean;
-}
+};
 
 class Home extends React.Component<indexProps, indexState> {
   state = {
     loading: true,
-    jobs: [],
-  }
+    jobs: []
+  };
 
   componentDidMount() {
-    this.setState({ jobs: this.props.response, loading: false})
+    this.setState({ jobs: this.props.response, loading: false });
   }
 
   onSearch = (event: any, query: string) => {
-    this.setState({loading: true})
+    this.setState({ loading: true });
     event.preventDefault();
-    if (query !== '') {
-      this.setState({ loading: true, jobs: [] })
-      Axios.get('http://localhost:4000/search?param=' + query)
-        .then(response => {
+    if (query !== "") {
+      this.setState({ loading: true, jobs: [] });
+      Axios.get("http://localhost:4000/search?param=" + query).then(
+        response => {
           if (response.data.success) {
-            this.setState({ jobs: response.data.response, loading: false })
+            this.setState({ jobs: response.data.response, loading: false });
           } else {
-            this.setState({ loading: false })
+            this.setState({ loading: false });
           }
-        })
+        }
+      );
     } else {
-      alert('derp')
-      this.setState({ loading: false })
+      alert("derp");
+      this.setState({ loading: false });
     }
-  }
+  };
 
   render() {
     return (
       <div>
+        <div style={{ textAlign: "center" }}>
+          <Image
+            wrapped
+            size="small"
+            src="https://cdn.pixabay.com/photo/2015/06/12/18/31/cute-807306_960_720.png"
+          />
+        </div>
         {/* 
-        // @ts-ignore */
-        }
+        // @ts-ignore */}
         <Search onSearch={this.onSearch} />
-        {!this.state.loading ? <SearchResults results={this.state.jobs} /> : null}
+        {!this.state.loading ? (
+          <SearchResults results={this.state.jobs} />
+        ) : null}
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Doing robot things" />
         </Dimmer>
       </div>
-    )
+    );
   }
 }
 
-export default Home
+export default withToastManager(Home);

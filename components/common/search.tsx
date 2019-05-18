@@ -18,8 +18,9 @@ class Search extends React.Component<searchProps, searchState> {
       <div className="main">
         <Form>
           <Form.Input
-            style={{ 'width': '220px', 'marginRight': '5px', 'position': 'relative', 'top': '1px' }}
+            style={{'width': '220px', 'marginRight': '5px', 'position': 'relative', 'top': '1px' }}
             icon="globe"
+            iconPosition="left"
             placeholder="keyword, city, or country"
             onChange={() => this.setState({ query: event!.target as HTMLInputElement ? (event!.target as HTMLInputElement).value : ''})}
           />

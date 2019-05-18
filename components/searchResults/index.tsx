@@ -12,10 +12,10 @@ const SearchResults = (props: searchProps) => {
     <div className="results">
       <p>
         {jobs.length === 50
-          ? "Recently posted jobs"
+          ? "recently posted jobs"
           : jobs.length === 0
-          ? "We found no jobs. Try searching again"
-          : `We found ${jobs.length} search reuslts`}
+          ? "we found no jobs. try searching again"
+          : `we found ${jobs.length} jobs`}
       </p>
       {jobs.map((job: JobType, index: number) => {
         return !job.hasOwnProperty("externalPosting") ? (

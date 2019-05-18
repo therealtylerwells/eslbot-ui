@@ -6,8 +6,18 @@ import Axios from 'axios';
 import Router from 'next/router'
 import { matchStateToTerm, getStates } from '../utils/countrySelect';
 import InternalResult from '../components/searchResults/internalResult';
+// @ts-ignore
+import { withToastManager } from 'react-toast-notifications';
 
-class PostJob extends Component {
+interface postJobProps {
+  toastManager: any;
+}
+
+interface postJobState {
+
+}
+
+class PostJob extends Component<postJobProps, postJobState> {
   state = {
     errors: false,
     schoolName: "it's good if your name can be found on google",
@@ -58,6 +68,11 @@ class PostJob extends Component {
       Axios.post('http://localhost:4000/job', job)
         .then(response => {
           if (response.data.success) {
+            this.props.toastManager.add(`Job saved`, {
+              appearance: 'success',
+              autoDismiss: true,
+              placement:"bottom-left"
+            });
             if (localStorage.getItem('userId')) {
               setTimeout(() => {
                 this.setState({ loading: false })
@@ -69,6 +84,11 @@ class PostJob extends Component {
             }
           } else {
             this.setState({ loading: false, errorMessage: response.data.message })
+            this.props.toastManager.add(`Something went wrong`, {
+              appearance: 'error',
+              autoDismiss: true,
+              placement:"bottom-left"
+            });
           }
         })
     } else {
@@ -207,4 +227,4 @@ class PostJob extends Component {
   }
 }
 
-export default PostJob;
+export default withToastManager(PostJob);

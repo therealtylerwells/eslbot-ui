@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
+// @ts-ignore
+import { withToastManager } from 'react-toast-notifications';
 
 type loginProps = {
   handleLogin: any;
+  withToastManager: any;
 }
 
 type loginState = {
@@ -96,4 +99,4 @@ class Login extends Component<loginProps, loginState> {
 
 }
 
-export default Login;
+export default withToastManager(Login);

@@ -1,64 +1,68 @@
 // This _app.tsx thing is built into next.js and lets us use a universal layout to wrap our app
 
-import React from 'react'
-import App, { Container } from 'next/app'
-import Router from 'next/router'
-import Layout from '../components/common/layout'
-import Axios from 'axios';
+import React from "react";
+import App, { Container } from "next/app";
+import Router from "next/router";
+import Layout from "../components/common/layout";
+import Axios from "axios";
+import fetch from "isomorphic-unfetch";
+// @ts-ignore
+import { ToastProvider } from "react-toast-notifications";
 
 class MyApp extends App {
   state = {
-    userId: undefined,
-  }
+    userId: undefined
+  };
   componentDidMount() {
-    const userId = localStorage.getItem('userId');
-    this.setState({userId});
+    const userId = localStorage.getItem("userId");
+    this.setState({ userId });
   }
 
   handleLogout = () => {
-    localStorage.removeItem('userId');
-    this.setState({userId: undefined})
-    Router.push('/')
-  }
+    localStorage.removeItem("userId");
+    this.setState({ userId: undefined });
+    Router.push("/");
+  };
 
-  handleLogin = (user: { username: string, password: string}) => {
-    Axios.post('http://localhost:4000/login', user)
-    .then(response => {
+  handleLogin = (user: { username: string; password: string }) => {
+    Axios.post("http://localhost:4000/login", user).then(response => {
       if (response.data.success) {
-        localStorage.setItem('userId', response.data.id)
-        this.setState({userId: response.data.id})
-        Router.push('/account')
+        localStorage.setItem("userId", response.data.id);
+        this.setState({ userId: response.data.id });
+        Router.push("/account");
       } else {
-        alert('uh oh this bad')
+        this.setState({ loading: false })
       }
-    })
-  }
+    });
+  };
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps } = this.props;
     const newProps = {
       ...pageProps,
       handleLogout: this.handleLogout,
       handleLogin: this.handleLogin,
       userId: this.state.userId
-    }
+    };
     return (
       <Container>
         <Layout userId={this.state.userId}>
-          <Component {...newProps} />
+          <ToastProvider>
+            <Component {...newProps} />
+          </ToastProvider>
         </Layout>
       </Container>
-    )
+    );
   }
 }
 
-MyApp.getInitialProps = async function () {
-  const res = await fetch('http://localhost:4000/get-recent-jobs')
-  const data = await res.json()
+MyApp.getInitialProps = async function() {
+  const res = await fetch("http://localhost:4000/get-recent-jobs");
+  const data = await res.json();
 
   return {
-    pageProps: data,
-  }
-}
+    pageProps: data
+  };
+};
 
-export default MyApp
+export default MyApp;
