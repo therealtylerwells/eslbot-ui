@@ -1,46 +1,81 @@
 import React, { Component } from "react";
-import { Form, Modal, Button, Image, Header, Flag } from "semantic-ui-react";
-import { Row, Column } from "../common/grid";
+import { Form, Button, Image, Flag, Icon } from "semantic-ui-react";
+import { Row, Column } from "../components/common/grid";
 import Autocomplete from "react-autocomplete";
-import { matchStateToTerm, getStates } from "../../utils/countrySelect";
+import { matchStateToTerm, getStates } from "../utils/countrySelect";
+import Router from "next/router";
 
-interface applyModalProps {
+interface applyProps {
   style: any;
 }
 
-interface applyModalState {
+interface applyState {
   name: string;
   email: string;
   nationality: string;
   degree: boolean;
   currentLocation: string;
   message: string;
+  job: any;
+  loading: boolean;
 }
 
-class ApplyModal extends Component<applyModalProps, applyModalState> {
+class Apply extends Component<applyProps, applyState> {
   state = {
     name: "",
     email: "",
     nationality: "",
     degree: false,
     currentLocation: "",
-    message: ""
+    message: "",
+    loading: false,
+    job: {
+      jobTitle: "",
+      name: "",
+      city: "",
+      country: ""
+    }
   };
+
+  componentDidMount = async () => {
+    const id = Router.router!.query!.id;
+    const res = await fetch("http://localhost:4000/job?jobId=" + id);
+    const data = await res.json();
+    this.setState({ job: data.job, loading: false });
+  };
+
   render() {
-    return (
-      <Modal
-        trigger={<Button primary>Apply Now</Button>}
-        style={this.props.style}
-      >
-        <Modal.Header>Contact this employer</Modal.Header>
-        <Modal.Content image>
-          <Image
-            wrapped
-            size="small"
-            src="https://cdn.pixabay.com/photo/2013/07/13/13/41/balloon-161384_960_720.png"
-          />
-          <Modal.Description style={{ width: "100%" }}>
-            <Header>We'll send an email to the employer on your behalf. You just fill out the info!</Header>
+    return this.state.job ? (
+      <div className="container">
+        <Row>
+          <Column style={{ flex: 4 }}>
+            <div style={{ textAlign: "center" }}>
+              <Image
+                wrapped
+                size="small"
+                src="https://upload.wikimedia.org/wikipedia/commons/3/38/Robot-clip-art-book-covers-feJCV3-clipart.png"
+              />
+            </div>
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "25px",
+                marginRight: "50px"
+              }}
+            >
+              <h4 style={{ marginBottom: "5px" }}>You're applying for</h4>
+              <p>{this.state.job.jobTitle}</p>
+              <p>
+                <Icon name="building" />
+                {this.state.job.name}
+              </p>
+              <p>
+                <Icon name="globe" />
+                {this.state.job.city}, {this.state.job.country}
+              </p>
+            </div>
+          </Column>
+          <Column style={{ flex: 8 }}>
             <Form>
               <Row>
                 <Column>
@@ -70,7 +105,7 @@ class ApplyModal extends Component<applyModalProps, applyModalState> {
                     style={{
                       color: "rgba(0,0,0,.87)",
                       fontSize: ".92857143em",
-                      fontWeight: "bold",
+                      fontWeight: "bold"
                     }}
                   >
                     What's your nationality?
@@ -82,8 +117,8 @@ class ApplyModal extends Component<applyModalProps, applyModalState> {
                     wrapperStyle={{
                       position: "relative",
                       display: "inline-block",
-                      width: '100%',
-                      marginTop: '3px',
+                      width: "100%",
+                      marginTop: "3px"
                     }}
                     items={getStates()}
                     autoHighlight
@@ -112,7 +147,7 @@ class ApplyModal extends Component<applyModalProps, applyModalState> {
                   />
                 </Column>
                 <Column>
-                <Form.Input
+                  <Form.Input
                     name="currentLocation"
                     label="Where do you currently live?"
                     onChange={() =>
@@ -139,10 +174,15 @@ class ApplyModal extends Component<applyModalProps, applyModalState> {
                 </Column>
               </Row>
             </Form>
-            <br/>
-            <Button primary>Send now</Button>
-          </Modal.Description>
-        </Modal.Content>
+            <br />
+            <div style={{ textAlign: "center" }}>
+              <Button primary>Apply now</Button>
+              <br />
+              <br />
+              <a>How does applying work?</a>
+            </div>
+          </Column>
+        </Row>
         <style jsx>{`
           .item-highlighted {
             font-weight: bold;
@@ -152,10 +192,22 @@ class ApplyModal extends Component<applyModalProps, applyModalState> {
             border-top: 1px solid gray;
             border-bottom: 1px solid gray;
           }
+          ,
+          .container {
+            width: 100%;
+            margin: 0 auto;
+          }
+          .image {
+            margin-right: 100px;
+            background-color: red;
+            border: 1px solid black;
+          }
         `}</style>
-      </Modal>
+      </div>
+    ) : (
+      <p>Loading</p>
     );
   }
 }
 
-export default ApplyModal;
+export default Apply;

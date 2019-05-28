@@ -13,6 +13,10 @@ app.prepare().then(() => {
     return app.render(req, res, '/job', { id: req.params.id })
   })
 
+  server.get('/apply/:id', (req, res) => {
+    return app.render(req, res, '/apply', { id: req.params.id })
+  })
+
   server.get('*', (req, res) => {
     return handle(req, res)
   })

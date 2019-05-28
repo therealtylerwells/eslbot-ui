@@ -1,5 +1,6 @@
 interface gridProps {
   children: unknown;
+  style?: any;
 }
 
 const Row = (props: gridProps) => {
@@ -12,14 +13,14 @@ const Row = (props: gridProps) => {
         flex-direction: row;
         margin: 25px 0 0 0;
       }
-    `}</style>  
+    `}</style>
     </div>
   )
 }
 
 const Column = (props: gridProps) => {
   return (
-    <div className="column">
+    <div {...props} className="column">
       {props.children}
       {/* 
       // @ts-ignore */}
