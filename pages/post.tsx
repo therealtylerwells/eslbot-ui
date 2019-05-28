@@ -261,7 +261,7 @@ class PostJob extends Component<postJobProps, postJobState> {
         </div>
         {this.state.schoolName.length > 0 ? (
           <div>
-          <h3 style={{ textAlign: "center" }}>Search Result Preview</h3>
+          <h3>Search Result Preview</h3>
 
           <InternalResult
             job={{

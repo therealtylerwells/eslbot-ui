@@ -82,7 +82,17 @@ class Account extends Component<accountProps, accountState> {
 
   handleRenew = (jobId: string) => {
     Axios.put("http://localhost:4000/renew?jobId=" + jobId).then(response => {
-      console.log(response);
+      if (response.data.success) {
+        this.props.toastManager.add(`Job renewed successfully`, {
+          appearance: 'success',
+          autoDismiss: true,
+        });      
+      } else {
+        this.props.toastManager.add(`Something went wrong`, {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      }
     });
   };
 
