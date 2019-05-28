@@ -13,6 +13,7 @@ class MyApp extends App {
   state = {
     userId: undefined
   };
+
   componentDidMount() {
     const userId = localStorage.getItem("userId");
     this.setState({ userId });
@@ -25,12 +26,14 @@ class MyApp extends App {
   };
 
   handleLogin = (user: { username: string; password: string }) => {
+    this.setState({ loading: true })
     Axios.post("http://localhost:4000/login", user).then(response => {
       if (response.data.success) {
         localStorage.setItem("userId", response.data.id);
-        this.setState({ userId: response.data.id });
+        this.setState({ userId: response.data.id, loading: false });
         Router.push("/account");
       } else {
+        alert('Error: ' + response.data.message)
         this.setState({ loading: false })
       }
     });

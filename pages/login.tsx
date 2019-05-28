@@ -8,6 +8,7 @@ import { withToastManager } from 'react-toast-notifications';
 type loginProps = {
   handleLogin: any;
   withToastManager: any;
+  loading: boolean;
 }
 
 type loginState = {
@@ -20,7 +21,6 @@ class Login extends Component<loginProps, loginState> {
     password: '',
     errors: false,
     errorMessage: null,
-    loading: false,
   }
 
   validateForm = () => {
@@ -37,7 +37,7 @@ class Login extends Component<loginProps, loginState> {
   }
 
   handleSubmit = () => {
-    this.setState({ errorMessage: null, errors: false, loading: true })
+    this.setState({ errorMessage: null, errors: false })
     const user = {
       "email": this.state.email,
       "password": this.state.password
@@ -45,7 +45,7 @@ class Login extends Component<loginProps, loginState> {
     if (this.validateForm()) {
       this.props.handleLogin(user);
     } else {
-      this.setState({ errors: true, loading: false })
+      this.setState({ errors: true })
     }
   }
 
@@ -89,7 +89,7 @@ class Login extends Component<loginProps, loginState> {
             <p>Not signed up?  <Link href="/register"><a>Register</a></Link></p>
           </Column>
         </Row>
-        <Dimmer inverted active={this.state.loading}>
+        <Dimmer inverted active={this.props.loading}>
           <Loader content="Logging in" />
         </Dimmer>
       </div>
