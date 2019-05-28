@@ -15,7 +15,7 @@ interface editJobState {}
 
 class EditJob extends Component<editJobProps, editJobState> {
   state = {
-    schoolName: "",
+    name: "",
     email: "",
     country: "",
     city: "",
@@ -34,7 +34,7 @@ class EditJob extends Component<editJobProps, editJobState> {
       email,
       jobTitle,
       jobDescription,
-      schoolName: name,
+      name,
     })
   }
 
@@ -45,11 +45,11 @@ class EditJob extends Component<editJobProps, editJobState> {
           <Column>
             <Form.Input
               placeholder="School or Company Name"
-              value={this.state.schoolName}
+              value={this.state.name}
               label="School or Company Name"
               onChange={() =>
                 this.setState({
-                  schoolName: (event!.target as HTMLInputElement).value
+                  name: (event!.target as HTMLInputElement).value
                 })
               }
             />
@@ -153,8 +153,8 @@ class EditJob extends Component<editJobProps, editJobState> {
           {this.state.errors ? (
             <Message negative>All Fields Are Required</Message>
           ) : null}
-          <Button onClick={() => this.props.handleSaveEdit(this.state)}>Save</Button>
-          <Button onClick={this.props.handleCancelEdit}>Cancel</Button>
+          <Button primary onClick={() => this.props.handleSaveEdit(this.state)}>Save</Button>
+          <Button color="red" onClick={this.props.handleCancelEdit}>Cancel</Button>
         </div>
       </Form>
     ) : (
