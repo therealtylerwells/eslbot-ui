@@ -11,6 +11,7 @@ import { withToastManager } from 'react-toast-notifications';
 type accountProps = {
   handleLogout: any;
   toastManager?: any;
+  handleChangePassword: () => void;
 };
 
 type accountState = {
@@ -35,7 +36,7 @@ class Account extends Component<accountProps, accountState> {
     isConfirmOpen: false,
     idToDelete: undefined,
     isEditMode: false,
-    jobToEdit: undefined
+    jobToEdit: undefined,
   };
 
   componentDidMount = () => {
@@ -44,7 +45,7 @@ class Account extends Component<accountProps, accountState> {
 
   getMyJobs = async () => {
     const res = await fetch(
-      "http://localhost:4000/jobs?jobPosterId=" + localStorage.getItem("userId")
+      "https://api.eslbot.com/jobs?jobPosterId=" + localStorage.getItem("userId")
     );
     const data: HTTPResponseType = await res.json();
     const newUserJobs = data.jobs;
@@ -57,7 +58,7 @@ class Account extends Component<accountProps, accountState> {
 
   handleConfirm = () => {
     this.setState({ isConfirmOpen: false, loading: false });
-    Axios.delete("http://localhost:4000/job?jobId=" + this.state.idToDelete)
+    Axios.delete("https://api.eslbot.com/job?jobId=" + this.state.idToDelete)
       .then(response => {
         if (response.data.success) {
           const newJobs = this.state.userJobs.filter((el: any) => {
@@ -81,7 +82,7 @@ class Account extends Component<accountProps, accountState> {
   };
 
   handleRenew = (jobId: string) => {
-    Axios.put("http://localhost:4000/renew?jobId=" + jobId).then(response => {
+    Axios.put("https://api.eslbot.com/renew?jobId=" + jobId).then(response => {
       if (response.data.success) {
         this.props.toastManager.add(`Job renewed successfully`, {
           appearance: 'success',
@@ -98,7 +99,7 @@ class Account extends Component<accountProps, accountState> {
 
   handleEdit = async (jobId: string) => {
     this.setState({ isEditMode: true, loading: true, jobToEdit: undefined });
-    const res = await fetch("http://localhost:4000/job?jobId=" + jobId);
+    const res = await fetch("https://api.eslbot.com/job?jobId=" + jobId);
     const data = await res.json();
     this.setState({ loading: false, jobToEdit: data.job });
   };
@@ -108,7 +109,7 @@ class Account extends Component<accountProps, accountState> {
   }
 
   handleSaveEdit = (job: any) => {
-    Axios.put('http://localhost:4000/job', job)
+    Axios.put('https://api.eslbot.com/job', job)
       .then(response => {
         if (response.data.success) {
           this.props.toastManager.add(`Job edited successfully`, {
@@ -184,7 +185,7 @@ class Account extends Component<accountProps, accountState> {
           </div>
         ) : null}
         {this.state.activeItem === "manageAccount" ? (
-          <ManageAccount handleLogout={this.props.handleLogout} />
+          <ManageAccount handleLogout={this.props.handleLogout} handleChangePassword={this.props.handleChangePassword}/>
         ) : null}
         <Dimmer inverted active={this.state.loading}>
           <Loader content="Loading account" />

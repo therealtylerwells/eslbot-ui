@@ -26,15 +26,49 @@ class MyApp extends App {
   };
 
   handleLogin = (user: { username: string; password: string }) => {
-    this.setState({ loading: true })
-    Axios.post("http://localhost:4000/login", user).then(response => {
+    this.setState({ loading: true });
+    Axios.post("https://api.eslbot.com/login", user).then(response => {
       if (response.data.success) {
         localStorage.setItem("userId", response.data.id);
         this.setState({ userId: response.data.id, loading: false });
         Router.push("/account");
       } else {
-        alert('Error: ' + response.data.message)
-        this.setState({ loading: false })
+        alert("Error: " + response.data.message);
+        this.setState({ loading: false });
+      }
+    });
+  };
+
+  handleChangePassword = (oldPassword: string, newPassword: string) => {
+    console.log(this.state.userId, oldPassword, newPassword);
+    const data = {
+      id: this.state.userId,
+      oldPassword,
+      newPassword
+    };
+    Axios.post("https://api.eslbot.com/change-password", data)
+      .then(response => {
+        if (response.data.success) {
+          this.handleLogout();
+          alert('Your password is changed. Please sign in again');
+        } else {
+          alert('Error: ' + response.data.message);
+        }
+      })
+  };
+
+  handleResetPassword = (email: string) => {
+    this.setState({ loading: true });
+    Axios.post("https://api.eslbot.com/reset-password-email", {
+      email: email
+    }).then(response => {
+      console.log(response);
+      if (response.data.success) {
+        this.setState({ loading: false });
+        alert("Check your email for instructions");
+      } else {
+        alert("Error: " + response.data.message);
+        this.setState({ loading: false });
       }
     });
   };
@@ -45,6 +79,8 @@ class MyApp extends App {
       ...pageProps,
       handleLogout: this.handleLogout,
       handleLogin: this.handleLogin,
+      handleResetPassword: this.handleResetPassword,
+      handleChangePassword: this.handleChangePassword,
       userId: this.state.userId
     };
     return (
@@ -60,7 +96,7 @@ class MyApp extends App {
 }
 
 MyApp.getInitialProps = async function() {
-  const res = await fetch("http://localhost:4000/get-recent-jobs");
+  const res = await fetch("https://api.eslbot.com/get-recent-jobs");
   const data = await res.json();
 
   return {

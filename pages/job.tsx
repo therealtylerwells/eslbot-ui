@@ -22,7 +22,7 @@ class Job extends Component<jobProps, jobState> {
   };
   componentDidMount = async () => {
     const id = Router.router!.query!.id;
-    const res = await fetch("http://localhost:4000/job?jobId=" + id);
+    const res = await fetch("https://api.eslbot.com/job?jobId=" + id);
     const data = await res.json();
     this.setState({ job: data.job, loading: false });
   };

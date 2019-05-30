@@ -8,14 +8,13 @@ const rightLinks = [
     label: 'help'
   },
   {
-    value: '/',
+    value: 'https://forums.eslbot.com',
     label: 'forums'
   },
   {
     value: '/post',
     label: 'post job'
   },
-
 ]
 
 interface navProps {
@@ -59,7 +58,6 @@ class Nav extends Component<navProps, navState> {
       // @ts-ignore */}
         <style jsx>{`
           :global(body) {
-            font-family: 'Arial'
             margin: 0 auto;
           }
           nav {

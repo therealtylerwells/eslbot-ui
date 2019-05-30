@@ -32,7 +32,7 @@ class Home extends React.Component<indexProps, indexState> {
     event.preventDefault();
     if (query !== "") {
       this.setState({ loading: true, jobs: [] });
-      Axios.get("http://localhost:4000/search?param=" + query).then(
+      Axios.get("https://api.eslbot.com/search?param=" + query).then(
         response => {
           if (response.data.success) {
             this.setState({ jobs: response.data.response, loading: false });

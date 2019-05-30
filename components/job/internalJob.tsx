@@ -38,7 +38,7 @@ const internalJob = (props: any) => {
         href={`/apply?id=${props.job._id}`}
       >
         <a>
-          <Button primary>Do something</Button>
+          <Button primary>Apply now</Button>
         </a>
       </Link>
       <div style={{ margin: "10px 0" }}>

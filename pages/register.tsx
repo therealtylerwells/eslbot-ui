@@ -37,7 +37,7 @@ class Register extends Component {
       "password": this.state.password,
     }
     if (this.validateForm()) {
-      Axios.post('http://localhost:4000/user', user)
+      Axios.post('https://api.eslbot.com/user', user)
         .then(response => {
           if (response.data.success) {
             localStorage.setItem('userId', (response as any).id)
@@ -98,7 +98,7 @@ class Register extends Component {
         </Row>
         <Row>
           <Column>
-            <p>Already registered?  <Link href="/"><a>Login</a></Link></p>
+            <p>Already registered?  <Link href="/login"><a>Login</a></Link></p>
           </Column>
         </Row>
         <Dimmer inverted active={this.state.loading}>

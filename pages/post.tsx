@@ -78,7 +78,7 @@ class PostJob extends Component<postJobProps, postJobState> {
         postingApproved,
         dateAdded
       };
-      Axios.post("http://localhost:4000/job", job).then(response => {
+      Axios.post("https://api.eslbot.com/job", job).then(response => {
         if (response.data.success) {
           this.props.toastManager.add(`Job saved`, {
             appearance: "success",
@@ -89,7 +89,7 @@ class PostJob extends Component<postJobProps, postJobState> {
             setTimeout(() => {
               this.setState({ loading: false });
               Router.push("/account");
-            }, 1000);
+            }, 500);
           } else {
             Router.push("/");
             this.setState({ loading: false });

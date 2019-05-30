@@ -1,29 +1,38 @@
 import React, { Component } from "react";
 import { Button, Form, Message, Dimmer, Loader } from "semantic-ui-react";
-import { Row, Column } from "../components/common/grid";
+import { Row, Column } from "../../components/common/grid";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
 
-type IResetPasswordProps = {
+type IChangePasswordProps = {
   withToastManager: any;
   loading: boolean;
-  handleResetPassword: any;
+  handleChangePassword: any;
 };
 
-type IResetPasswordState = {};
+type IChangePasswordState = {
+  oldPassword: string;
+  newPassword: string;
+  errors: boolean;
+  errorMessage: string | null;
+};
 
-class ResetPassword extends Component<
-  IResetPasswordProps,
-  IResetPasswordState
+class ChangePassword extends Component<
+  IChangePasswordProps,
+  IChangePasswordState
 > {
   state = {
-    email: "",
     errors: false,
-    errorMessage: null
+    errorMessage: null,
+    oldPassword: "",
+    newPassword: ""
   };
 
   validateForm = () => {
-    if (this.state.email.trim().length > 0) {
+    if (
+      this.state.oldPassword.trim().length > 0 &&
+      this.state.newPassword.trim().length > 0
+    ) {
       this.setState({ errors: false });
       return true;
     } else {
@@ -35,7 +44,7 @@ class ResetPassword extends Component<
   handleSubmit = () => {
     this.setState({ errorMessage: null, errors: false });
     if (this.validateForm()) {
-      this.props.handleResetPassword(this.state.email);
+      this.props.handleChangePassword(this.state.oldPassword, this.state.newPassword)
     } else {
       this.setState({ errors: true });
     }
@@ -51,16 +60,26 @@ class ResetPassword extends Component<
             <Form>
               <Column>
                 <Form.Input
-                  icon="envelope"
-                  placeholder="chewy@kashyyyk.com"
-                  label="What's your email address?"
+                  icon="lock"
+                  type="password"
+                  label="What's your current password?"
                   onChange={() =>
                     this.setState({
-                      email: (event!.target as HTMLInputElement).value
+                      oldPassword: (event!.target as HTMLInputElement).value
                     })
                   }
                 />
-                <Button onClick={this.handleSubmit}>Reset Password</Button>
+                <Form.Input
+                  icon="lock"
+                  type="password"
+                  label="Input a new password"
+                  onChange={() =>
+                    this.setState({
+                      newPassword: (event!.target as HTMLInputElement).value
+                    })
+                  }
+                />
+                <Button onClick={this.handleSubmit}>change now</Button>
                 {this.state.errors ? (
                   <Message>Enter an email address</Message>
                 ) : null}
@@ -82,4 +101,4 @@ class ResetPassword extends Component<
   }
 }
 
-export default withToastManager(ResetPassword);
+export default withToastManager(ChangePassword);

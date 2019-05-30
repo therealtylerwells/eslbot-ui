@@ -1,34 +1,50 @@
 import React, { Component } from "react";
-import { Form, Button, Image, Flag, Icon } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Image,
+  Icon,
+  Message,
+  Dimmer,
+  Loader
+} from "semantic-ui-react";
 import { Row, Column } from "../components/common/grid";
-import Autocomplete from "react-autocomplete";
-import { matchStateToTerm, getStates } from "../utils/countrySelect";
 import Router from "next/router";
+import Axios from "axios";
+// @ts-ignore
+import { withToastManager } from "react-toast-notifications";
 
-interface applyProps {
+interface IApplyProps {
   style: any;
+  toastManager: any;
 }
 
-interface applyState {
+interface IApplyState {
   name: string;
   email: string;
   nationality: string;
-  degree: boolean;
+  degree: boolean | undefined;
+  teachingExperience: boolean;
   currentLocation: string;
   message: string;
   job: any;
   loading: boolean;
+  errors: boolean;
+  errorMessage: string;
 }
 
-class Apply extends Component<applyProps, applyState> {
+class Apply extends Component<IApplyProps, IApplyState> {
   state = {
     name: "",
     email: "",
     nationality: "",
     degree: false,
+    teachingExperience: false,
     currentLocation: "",
     message: "",
     loading: false,
+    errors: false,
+    errorMessage: "",
     job: {
       jobTitle: "",
       name: "",
@@ -39,9 +55,69 @@ class Apply extends Component<applyProps, applyState> {
 
   componentDidMount = async () => {
     const id = Router.router!.query!.id;
-    const res = await fetch("http://localhost:4000/job?jobId=" + id);
+    const res = await fetch("https://api.eslbot.com/job?jobId=" + id);
     const data = await res.json();
     this.setState({ job: data.job, loading: false });
+  };
+
+  handleApply = async () => {
+    this.setState({ loading: true, errors: false, errorMessage: "" });
+
+    const {
+      name,
+      email,
+      nationality,
+      degree,
+      teachingExperience,
+      currentLocation,
+      message,
+      job
+    } = this.state;
+
+    if (
+      name.trim().length > 1 &&
+      email.trim().length > 1 &&
+      nationality.trim().length > 1 &&
+      degree !== undefined &&
+      currentLocation.trim().length > 1 &&
+      message.trim().length > 1 &&
+      teachingExperience !== undefined
+    ) {
+      const application = {
+        name,
+        email,
+        nationality,
+        degree,
+        teachingExperience,
+        currentLocation,
+        message,
+        job
+      };
+      Axios.post("https://api.eslbot.com/apply", application).then(response => {
+        if (response.data.success) {
+          this.props.toastManager.add(`Email sent!`, {
+            appearance: "success",
+            autoDismiss: true,
+            placement: "bottom-left"
+          });
+          this.setState({ loading: false });
+          Router.back()
+        } else {
+          this.props.toastManager.add(`Email send failure. Uh oh`, {
+            appearance: "error",
+            autoDismiss: true,
+            placement: "bottom-left"
+          });
+          this.setState({ loading: false });
+        }
+      });
+    } else {
+      this.setState({
+        errors: true,
+        errorMessage: "Something broke",
+        loading: false
+      });
+    }
   };
 
   render() {
@@ -81,6 +157,7 @@ class Apply extends Component<applyProps, applyState> {
                 <Column>
                   <Form.Input
                     label="Your Name"
+                    placeholder="Lloyd Bonafide"
                     onChange={() =>
                       this.setState({
                         name: (event!.target as HTMLInputElement).value
@@ -91,6 +168,7 @@ class Apply extends Component<applyProps, applyState> {
                 <Column>
                   <Form.Input
                     label="Your Email Address"
+                    placeholder="email@domain.com"
                     onChange={() =>
                       this.setState({
                         email: (event!.target as HTMLInputElement).value
@@ -101,54 +179,21 @@ class Apply extends Component<applyProps, applyState> {
               </Row>
               <Row>
                 <Column>
-                  <span
-                    style={{
-                      color: "rgba(0,0,0,.87)",
-                      fontSize: ".92857143em",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    What's your nationality?
-                  </span>
-                  <br />
-                  <Autocomplete
-                    value={this.state.nationality}
-                    inputProps={{ id: "adsfasdf" }}
-                    wrapperStyle={{
-                      position: "relative",
-                      display: "inline-block",
-                      width: "100%",
-                      marginTop: "3px"
-                    }}
-                    items={getStates()}
-                    autoHighlight
-                    getItemValue={item => item.name}
-                    shouldItemRender={matchStateToTerm}
-                    onChange={(event, nationality) => {
-                      // using event so typescript will leave me alone wtf typescript
-                      typeof event;
-                      this.setState({ nationality });
-                    }}
-                    onSelect={nationality => this.setState({ nationality })}
-                    renderMenu={children => (
-                      <div className="menu">{children}</div>
-                    )}
-                    renderItem={(item, isHighlighted) => (
-                      <div
-                        className={`item ${
-                          isHighlighted ? "item-highlighted" : ""
-                        }`}
-                        key={item.abbr}
-                      >
-                        <Flag name={item.abbr} />
-                        {item.name}
-                      </div>
-                    )}
+                  <Form.Input
+                    name="nationality"
+                    placeholder="American"
+                    label="What's your nationality?"
+                    onChange={() =>
+                      this.setState({
+                        nationality: (event!.target as HTMLInputElement).value
+                      })
+                    }
                   />
                 </Column>
                 <Column>
                   <Form.Input
                     name="currentLocation"
+                    placeholder="Japan"
                     label="Where do you currently live?"
                     onChange={() =>
                       this.setState({
@@ -156,6 +201,48 @@ class Apply extends Component<applyProps, applyState> {
                           .value
                       })
                     }
+                  />
+                </Column>
+              </Row>
+              <Row>
+                <Column>
+                  <Form.Select
+                    label="Do you have a 4-year university degree?"
+                    onChange={({}, { value }) => {
+                      this.setState({ degree: value as boolean });
+                    }}
+                    options={[
+                      {
+                        key: "Yes",
+                        value: true,
+                        text: "Yes"
+                      },
+                      {
+                        key: "No",
+                        value: false,
+                        text: "No"
+                      }
+                    ]}
+                  />
+                </Column>
+                <Column>
+                  <Form.Select
+                    label="Do you have teaching experience??"
+                    onChange={({}, { value }) => {
+                      this.setState({ teachingExperience: value as boolean });
+                    }}
+                    options={[
+                      {
+                        key: "Yes",
+                        value: true,
+                        text: "Yes"
+                      },
+                      {
+                        key: "No",
+                        value: false,
+                        text: "No"
+                      }
+                    ]}
                   />
                 </Column>
               </Row>
@@ -176,13 +263,21 @@ class Apply extends Component<applyProps, applyState> {
             </Form>
             <br />
             <div style={{ textAlign: "center" }}>
-              <Button primary>Apply now</Button>
+              {this.state.errors ? (
+                <Message negative>All Fields Are Required</Message>
+              ) : null}
+              <Button primary onClick={this.handleApply}>
+                Apply now
+              </Button>
               <br />
               <br />
               <a>How does applying work?</a>
             </div>
           </Column>
         </Row>
+        <Dimmer inverted active={this.state.loading}>
+          <Loader content="Posting job" />
+        </Dimmer>
         <style jsx>{`
           .item-highlighted {
             font-weight: bold;
@@ -210,4 +305,4 @@ class Apply extends Component<applyProps, applyState> {
   }
 }
 
-export default Apply;
+export default withToastManager(Apply);
