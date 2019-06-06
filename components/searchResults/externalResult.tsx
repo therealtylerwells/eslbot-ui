@@ -21,7 +21,7 @@ const ExternalResult = (props: externalResultProps) => {
     <div className="result-container">
       <div className="row">
         <div className="column">
-          <a href={props.job.link} rel="noopener" target="_blank">
+          <a style={{fontFamily: 'Ubuntu Condensed'}} href={props.job.link} rel="noopener" target="_blank">
             {props.job.text ? props.job.text.replace(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '') : null}
           </a>
         </div>

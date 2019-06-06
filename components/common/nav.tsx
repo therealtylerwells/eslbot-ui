@@ -59,6 +59,7 @@ class Nav extends Component<navProps, navState> {
         <style jsx>{`
           :global(body) {
             margin: 0 auto;
+            font-family: 'Karla';
           }
           nav {
             text-align: center;
@@ -66,6 +67,7 @@ class Nav extends Component<navProps, navState> {
           ul {
             display: flex;
             justify-content: space-between;
+            font-family: 'Poppins';
           }
           nav > ul {
             padding: 4px 0px;

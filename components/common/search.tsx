@@ -25,7 +25,7 @@ class Search extends React.Component<searchProps, searchState> {
             onChange={() => this.setState({ query: event!.target as HTMLInputElement ? (event!.target as HTMLInputElement).value : ''})}
           />
           <Button onClick={(event) => this.props.onSearch(event, this.state.query)}>
-            Search
+            search
         </Button>
         </Form>
       {/* 
