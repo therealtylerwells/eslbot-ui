@@ -1,5 +1,14 @@
 import { Table } from "semantic-ui-react";
 import JobRow from "./jobRow";
+import { Button, Icon } from 'semantic-ui-react'
+import Link from 'next/link'
+
+const placeholder = (
+  <div style={{textAlign:'center'}}>
+  <h4>It looks like you haven't posted any jobs yet.</h4>
+  <Link href='/post'><a><Button primary><Icon name="plus"/>Post Job</Button></a></Link>
+  </div>
+)
 
 const MyJobs = (props: any) => {
   const jobs = props.jobs;
@@ -44,15 +53,17 @@ const MyJobs = (props: any) => {
             );
           })}
         </Table.Body>
-
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan="10" />
           </Table.Row>
         </Table.Footer>
       </Table>
+      {jobs.length == 0 ? placeholder : null}
+
     </div>
   ) : null;
+
 };
 
 export default MyJobs;
