@@ -4,10 +4,11 @@ import InternalJob from "../components/job/internalJob";
 import Router from "next/router";
 import { JobType } from "../types/types";
 import { Dimmer, Loader } from "semantic-ui-react";
+import { HTTPResponseType } from '../types/types'
 
 type jobProps = {
-  response: any;
-  data: any;
+  response: HTTPResponseType;
+  data: JobType[];
 };
 
 type jobState = {

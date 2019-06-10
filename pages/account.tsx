@@ -9,7 +9,7 @@ import EditJob from "../components/job/editJob";
 import { withToastManager } from 'react-toast-notifications';
 
 type accountProps = {
-  handleLogout: any;
+  handleLogout: () => void;
   toastManager?: any;
   handleChangePassword: () => void;
 };
@@ -20,9 +20,9 @@ type accountState = {
   loading: boolean;
   userJobs: JobType[] | undefined;
   isConfirmOpen: boolean;
-  handleCancel?: any;
-  handleConfirm?: any;
-  idToDelete?: any;
+  handleCancel?: () => void;
+  handleConfirm?: () => void;
+  idToDelete?: string;
   isEditMode?: boolean;
   jobToEdit?: object;
 };
@@ -61,7 +61,7 @@ class Account extends Component<accountProps, accountState> {
     Axios.delete("https://api.eslbot.com/job?jobId=" + this.state.idToDelete)
       .then(response => {
         if (response.data.success) {
-          const newJobs = this.state.userJobs.filter((el: any) => {
+          const newJobs = this.state.userJobs.filter((el: JobType) => {
             return el._id !== this.state.idToDelete ? el : null;
           });
           this.setState({
@@ -108,7 +108,7 @@ class Account extends Component<accountProps, accountState> {
     this.setState({ loading: false, isEditMode: false})
   }
 
-  handleSaveEdit = (job: any) => {
+  handleSaveEdit = (job: JobType) => {
     Axios.put('https://api.eslbot.com/job', job)
       .then(response => {
         if (response.data.success) {
@@ -179,7 +179,7 @@ class Account extends Component<accountProps, accountState> {
                 isEditMode={this.state.isEditMode}
                 handleCancelEdit={this.handleCancelEdit}
                 handleSaveEdit={this.handleSaveEdit}
-                job={this.state.jobToEdit}
+                job={this.state.jobToEdit!}
               />
             ) : null}
           </div>

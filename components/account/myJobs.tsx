@@ -2,6 +2,15 @@ import { Table } from "semantic-ui-react";
 import JobRow from "./jobRow";
 import { Button, Icon } from 'semantic-ui-react'
 import Link from 'next/link'
+import { JobType } from '../../types/types'
+
+interface MyJobProps {
+  jobs: JobType[];
+  editMode?: boolean;
+  handleDelete: (jobId: string) => void;
+  handleRenew: (jobId: string) => void;
+  handleEdit: (jobId: string) => void;
+}
 
 const placeholder = (
   <div style={{textAlign:'center'}}>
@@ -10,7 +19,7 @@ const placeholder = (
   </div>
 )
 
-const MyJobs = (props: any) => {
+const MyJobs = (props: MyJobProps) => {
   const jobs = props.jobs;
   return jobs && !props.editMode ? (
     <div>
@@ -41,14 +50,14 @@ const MyJobs = (props: any) => {
         </Table.Header>
 
         <Table.Body>
-          {jobs.map((job: any, index: number) => {
+          {jobs.map((job: JobType, index: number) => {
             return (
               <JobRow
                 job={job}
                 key={index}
                 handleDelete={props.handleDelete}
-                handleRenew={() => props.handleRenew(job._id)}
-                handleEdit={() => props.handleEdit(job._id)}
+                handleRenew={() => props.handleRenew(job._id!)}
+                handleEdit={() => props.handleEdit(job._id!)}
               />
             );
           })}

@@ -7,13 +7,14 @@ import { HTTPResponseType } from "../types/types";
 import Axios from "axios";
 // @ts-ignore
 import { withToastManager } from 'react-toast-notifications';
+import { JobType } from '../types/types'
 
 type indexProps = {
   response: HTTPResponseType;
 };
 
 type indexState = {
-  jobs: any;
+  jobs: JobType[];
   loading: boolean;
 };
 
@@ -24,10 +25,10 @@ class Home extends React.Component<indexProps, indexState> {
   };
 
   componentDidMount() {
-    this.setState({ jobs: this.props.response, loading: false });
+    this.setState({ jobs: this.props.response as any, loading: false });
   }
 
-  onSearch = (event: any, query: string) => {
+  onSearch = (event: React.SyntheticEvent, query: string) => {
     this.setState({ loading: true });
     event.preventDefault();
     if (query !== "") {

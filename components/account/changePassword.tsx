@@ -5,9 +5,9 @@ import { Row, Column } from "../../components/common/grid";
 import { withToastManager } from "react-toast-notifications";
 
 type IChangePasswordProps = {
-  withToastManager: any;
+  withToastManager: {};
   loading: boolean;
-  handleChangePassword: any;
+  handleChangePassword: (oldPassword: string, newPassword: string) => void;
 };
 
 type IChangePasswordState = {

@@ -7,7 +7,7 @@ import { withToastManager } from "react-toast-notifications";
 type IResetPasswordProps = {
   withToastManager: any;
   loading: boolean;
-  handleResetPassword: any;
+  handleResetPassword: (email: string) => void;
 };
 
 type IResetPasswordState = {};

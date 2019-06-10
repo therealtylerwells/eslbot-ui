@@ -1,24 +1,32 @@
 import { Table, Popup, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
+import { JobType } from '../../types/types'
 
-const JobRow = (props: any) => {
+interface JobRowProps {
+  job: JobType;
+  handleEdit: () => void;
+  handleRenew: () => void;
+  handleDelete: (jobId: string) => void;
+}
+
+const JobRow = (props: JobRowProps) => {
   const { job } = props;
   return (
     <Table.Row>
-      <Table.Cell style={{ 'textAlign': 'center' }}>{new Date(job.updatedAt).toLocaleDateString()}</Table.Cell>
+      <Table.Cell style={{ 'textAlign': 'center' }}>{new Date(job.updatedAt!).toLocaleDateString()}</Table.Cell>
       <Table.Cell>{job.name}</Table.Cell>
       <Table.Cell>{job.city}</Table.Cell>
       <Table.Cell>{job.country}</Table.Cell>
       <Table.Cell>
         <Popup
           content={job.jobTitle}
-          trigger={<span>{job.jobTitle.substring(0, 20)}</span>}
+          trigger={<span>{job.jobTitle!.substring(0, 20)}</span>}
         />
       </Table.Cell>
       <Table.Cell>
         <Popup
-          content={job.jobDescription.substring(0, 500) + '. . .'}
-          trigger={<span>{job.jobDescription.substring(0, 20)}</span>}
+          content={job.jobDescription!.substring(0, 500) + '. . .'}
+          trigger={<span>{job.jobDescription!.substring(0, 20)}</span>}
         />
       </Table.Cell>
       <Table.Cell style={{ 'textAlign': 'center' }}>
@@ -43,7 +51,7 @@ const JobRow = (props: any) => {
       <Table.Cell style={{ 'textAlign': 'center' }}>
         <Popup
           content={"Delete this job"}
-          trigger={<button onClick={() => props.handleDelete(job._id)} style={{ border: 'none', cursor: 'pointer' }}><Icon name="trash" color="red" /></button>}
+          trigger={<button onClick={() => props.handleDelete(job._id!)} style={{ border: 'none', cursor: 'pointer' }}><Icon name="trash" color="red" /></button>}
         />
       </Table.Cell>
     </Table.Row>

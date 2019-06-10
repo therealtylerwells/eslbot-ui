@@ -18,7 +18,7 @@ const rightLinks = [
 ]
 
 interface navProps {
-  userId: any;
+  userId: string;
 }
 
 interface navState {

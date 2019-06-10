@@ -13,7 +13,7 @@ export const getStates = () => {
   ]
 }
 
-export const matchStateToTerm = (state: any, value: any) => {
+export const matchStateToTerm = (state: {name: string, abbr: string}, value: string) => {
   return (
     state.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
     state.abbr.toLowerCase().indexOf(value.toLowerCase()) !== -1

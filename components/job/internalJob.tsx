@@ -4,10 +4,15 @@ import TimeAgo from "javascript-time-ago";
 // @ts-ignore
 import en from "javascript-time-ago/locale/en";
 import Link from "next/link";
+import { JobType } from '../../types/types';
+
+interface IInternalJobProps {
+  job: JobType;
+}
 
 TimeAgo.addLocale(en);
 
-const internalJob = (props: any) => {
+const internalJob = (props: IInternalJobProps) => {
   return (
     <div>
       <div>
@@ -21,14 +26,14 @@ const internalJob = (props: any) => {
         <span className="jobLocation">
           <Flag
             style={{ marginLeft: "12px" }}
-            name={props.job.country.toLowerCase()}
+            name={props.job.country.toLowerCase() as any}
           />
           {props.job.city}, {props.job.country}
         </span>
         <br />
         <p className="postedDate">
           <Icon name="clock" style={{ marginLeft: "3px", marginTop: "4px" }} />
-          Posted {new Date(props.job.updatedAt).toLocaleDateString("en-US")}
+          Posted {new Date(props.job.updatedAt!).toLocaleDateString("en-US")}
         </p>
       </div>
       <Divider />

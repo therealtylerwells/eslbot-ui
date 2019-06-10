@@ -6,13 +6,16 @@ import { Row, Column } from '../components/common/grid'
 import { withToastManager } from 'react-toast-notifications';
 
 type loginProps = {
-  handleLogin: any;
+  handleLogin: (user: {email: string, password: string}) => void;
   withToastManager: any;
   loading: boolean;
 }
 
 type loginState = {
-
+  email: string;
+  password: string;
+  errors: boolean;
+  errorMessage: string | null;
 }
 
 class Login extends Component<loginProps, loginState> {

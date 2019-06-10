@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Accordion, Icon } from 'semantic-ui-react'
+import { Accordion, Icon, AccordionTitleProps } from 'semantic-ui-react'
 import Link from 'next/link'
 
 class Help extends Component {
@@ -7,7 +7,7 @@ class Help extends Component {
     activeIndex: -1
   }
 
-  handleClick = (e: any, titleProps: any) => {
+  handleClick = (e: React.SyntheticEvent, titleProps: AccordionTitleProps) => {
     const { index } = titleProps
     const { activeIndex } = this.state
     const newIndex = activeIndex === index ? -1 : index

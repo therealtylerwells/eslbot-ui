@@ -1,17 +1,28 @@
 import React, { Component } from "react";
-import { Form, Button, Flag, Message, Dimmer, Loader } from "semantic-ui-react";
+import { Form, Button, Flag, Message, Dimmer, Loader, FlagNameValues } from "semantic-ui-react";
 import { Row, Column } from "../common/grid";
 import { matchStateToTerm, getStates } from "../../utils/countrySelect";
 import Autocomplete from "react-autocomplete";
+import { JobType } from '../../types/types';
 
 interface editJobProps {
-  job: any;
-  isEditMode: any;
-  handleCancelEdit: any;
-  handleSaveEdit: any;
+  job: JobType;
+  isEditMode: boolean;
+  handleCancelEdit: () => void;
+  handleSaveEdit: (state: editJobState) => void;
 }
 
-interface editJobState {}
+interface editJobState {
+  name: string;
+  email: string;
+  country: string;
+  city: string;
+  jobDescription: string;
+  errors: boolean;
+  loading: boolean;
+  _id: string;
+  jobTitle: string;
+}
 
 class EditJob extends Component<editJobProps, editJobState> {
   state = {
@@ -23,18 +34,19 @@ class EditJob extends Component<editJobProps, editJobState> {
     errors: false,
     loading: false,
     jobTitle: '',
+    _id: '',
   };
 
   componentDidMount = async() => {
     const { city, country, email, jobTitle, jobDescription, name, _id } = this.props.job;
     this.setState({
-      _id,
-      city,
-      country,
-      email,
-      jobTitle,
-      jobDescription,
-      name,
+      _id: _id!,
+      city: city!,
+      country: country!,
+      email: email!,
+      jobTitle: jobTitle!,
+      jobDescription: jobDescription!,
+      name: name!
     })
   }
 
@@ -112,18 +124,18 @@ class EditJob extends Component<editJobProps, editJobState> {
               wrapperStyle={{ position: "relative", display: "inline-block" }}
               items={getStates()}
               autoHighlight
-              getItemValue={(item: any) => item.name}
+              getItemValue={(item: {name: string}) => item.name}
               shouldItemRender={matchStateToTerm}
-              onChange={(event: any, country: any) => {
+              onChange={(event: React.SyntheticEvent, country: string) => {
                 // using event so typescript will leave me alone wtf typescript
                 typeof event;
                 this.setState({ country });
               }}
               onSelect={(country: string) => this.setState({ country })}
-              renderMenu={(children: any) => (
+              renderMenu={(children: {}) => (
                 <div className="menu">{children}</div>
               )}
-              renderItem={(item: any, isHighlighted: any) => (
+              renderItem={(item: {abbr: FlagNameValues, name: string}, isHighlighted: boolean) => (
                 <div
                   className={`item ${isHighlighted ? "item-highlighted" : ""}`}
                   key={item.abbr}

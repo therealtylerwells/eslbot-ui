@@ -13,9 +13,10 @@ import Router from "next/router";
 import Axios from "axios";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
+import { JobType } from '../types/types';
 
 interface IApplyProps {
-  style: any;
+  style: React.CSSProperties;
   toastManager: any;
 }
 
@@ -27,7 +28,7 @@ interface IApplyState {
   teachingExperience: boolean;
   currentLocation: string;
   message: string;
-  job: any;
+  job: JobType;
   loading: boolean;
   errors: boolean;
   errorMessage: string;

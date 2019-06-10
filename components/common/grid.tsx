@@ -1,6 +1,6 @@
 interface gridProps {
   children: unknown;
-  style?: any;
+  style?: {};
 }
 
 const Row = (props: gridProps) => {

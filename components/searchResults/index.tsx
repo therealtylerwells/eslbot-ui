@@ -3,7 +3,7 @@ import InternalResult from "./internalResult";
 import ExternalResult from "./externalResult";
 
 interface searchProps {
-  results: any;
+  results: JobType[];
 }
 
 const SearchResults = (props: searchProps) => {

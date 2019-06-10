@@ -2,7 +2,7 @@ import { Button, Form } from 'semantic-ui-react';
 import React from 'react';
 
 type searchProps = {
-  onSearch: any;
+  onSearch: (event: React.SyntheticEvent, query: string) => void;
 }
 
 type searchState = {
