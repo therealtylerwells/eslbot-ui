@@ -28,6 +28,7 @@ class PostJob extends Component<postJobProps, postJobState> {
     externalPosting: false,
     postingApproved: false,
     loading: true,
+    link: undefined,
     dateAdded: new Date()
   };
 
@@ -56,8 +57,12 @@ class PostJob extends Component<postJobProps, postJobState> {
       jobPosterId,
       externalPosting,
       dateAdded,
-      postingApproved
+      postingApproved,
     } = this.state;
+
+    // Hacky way to assign unique link so MongoDB doesn't remove these as duplicates
+    const link = Math.random() * (1 - 100000000000) + 1;
+
     if (
       this.state.schoolName.trim().length > 1 &&
       this.state.email.trim().length > 1 &&
@@ -76,7 +81,8 @@ class PostJob extends Component<postJobProps, postJobState> {
         jobPosterId,
         externalPosting,
         postingApproved,
-        dateAdded
+        dateAdded,
+        link
       };
       Axios.post("https://api.eslbot.com/job", job).then(response => {
         if (response.data.success) {

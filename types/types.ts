@@ -1,6 +1,6 @@
 export interface JobType {
   _id?: string,
-  link?: string,
+  link?: string | undefined,
   text?: string,
   location?: string,
   website?: string,

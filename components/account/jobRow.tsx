@@ -25,7 +25,7 @@ const JobRow = (props: JobRowProps) => {
       </Table.Cell>
       <Table.Cell>
         <Popup
-          content={job.jobDescription!.substring(0, 500) + '. . .'}
+          content={job.jobDescription!.substring(0, 500)}
           trigger={<span>{job.jobDescription!.substring(0, 20)}</span>}
         />
       </Table.Cell>
