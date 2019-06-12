@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
-import Fonts from '../../utils/fonts'
 
 const rightLinks = [
   {
@@ -28,9 +27,6 @@ interface navState {
 class Nav extends Component<navProps, navState> {
   state = {
     userId: null,
-  }
-  componentDidMount() {
-    Fonts()
   }
   render() {
     return (

@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Button, Form, Message, Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
-import Axios from 'axios';
-import Router from 'next/router'
 
-class Register extends Component {
+interface IRegisterProps {
+  handleRegister: (user: any) => void;
+}
+
+interface IRegisterState {}
+
+class Register extends Component<IRegisterProps, IRegisterState> {
   state = {
     email: '',
     password: '',
@@ -33,23 +37,11 @@ class Register extends Component {
   handleSubmit = () => {
     this.setState({ errors: false, errorMessage: '', loading: true})
     const user = {
-      "email": this.state.email,
-      "password": this.state.password,
+      email: this.state.email,
+      password: this.state.password,
     }
     if (this.validateForm()) {
-      Axios.post('https://api.eslbot.com/user', user)
-        .then(response => {
-          if (response.data.success) {
-            localStorage.setItem('userId', (response as any).id)
-            Router.push('/account')
-          } else {
-            this.setState({ errors: true, errorMessage: response.data.message, loading: false})
-          }
-        })
-        .catch(error => {
-          alert('Error: ' + error);
-          this.setState({loading: false})
-        })
+      this.props.handleRegister(user)
     } else {
       this.setState({ errors: true, loading: false })
     }

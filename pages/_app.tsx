@@ -25,6 +25,23 @@ class MyApp extends App {
     Router.push("/");
   };
 
+  handleRegister = (user: any) => {
+    Axios.post('https://api.eslbot.com/user', user)
+    .then(response => {
+      if (response.data.success) {
+        localStorage.setItem('userId', (response.data.id))
+        this.setState({ userId: response.data.id, loading: false });
+        Router.push('/account')
+      } else {
+        this.setState({ errors: true, errorMessage: response.data.message, loading: false})
+      }
+    })
+    .catch(error => {
+      alert('Error: ' + error);
+      this.setState({loading: false})
+    })
+  }
+
   handleLogin = (user: { username: string; password: string }) => {
     this.setState({ loading: true });
     Axios.post("https://api.eslbot.com/login", user).then(response => {
@@ -81,6 +98,7 @@ class MyApp extends App {
       handleLogin: this.handleLogin,
       handleResetPassword: this.handleResetPassword,
       handleChangePassword: this.handleChangePassword,
+      handleRegister: this.handleRegister,
       userId: this.state.userId
     };
     return (

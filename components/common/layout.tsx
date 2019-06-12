@@ -10,7 +10,7 @@ interface layoutProps {
 const layout = (props: layoutProps) => {
   return (
     <div style={{'width':'90%', 'margin': '0 auto'}}>
-      <Nav userId={props.userId}/>
+      <Nav userId={props.userId!}/>
       {/* 
       // @ts-ignore */}
       <Head title={props.title}/>
