@@ -55,17 +55,18 @@ class Home extends React.Component<indexProps, indexState> {
           <Image
             wrapped
             size="small"
-            src="https://cdn.pixabay.com/photo/2015/06/12/18/31/cute-807306_960_720.png"
+            src="https://image.freepik.com/free-vector/illustration-robot_53876-5576.jpg"
           />
         </div>
         {/* 
         // @ts-ignore */}
+        <p style={{textAlign:'center'}}>Search, post, and apply for overseas English, ESL, and TEFL teaching jobs in Japan, South Korea, China, Thailand, and everywhere else</p>
         <Search onSearch={this.onSearch} />
         {!this.state.loading ? (
           <SearchResults results={this.state.jobs} />
         ) : null}
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Doing robot things" />
+          <Loader content="loading jobs" />
         </Dimmer>
       </div>
     );

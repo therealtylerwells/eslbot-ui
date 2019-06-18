@@ -4,15 +4,15 @@ import Link from 'next/link'
 const rightLinks = [
   {
     value: '/help',
-    label: 'help'
+    label: 'Help'
   },
   {
     value: 'https://forums.eslbot.com',
-    label: 'forums'
+    label: 'Forums'
   },
   {
     value: '/post',
-    label: 'post job'
+    label: 'Post Job'
   },
 ]
 
@@ -34,7 +34,7 @@ class Nav extends Component<navProps, navState> {
         <ul>
           <li>
             <Link prefetch href="/">
-              <a>eslbot</a>
+              <a><strong>eslbot</strong></a>
             </Link>
           </li>
           <ul>
@@ -43,10 +43,10 @@ class Nav extends Component<navProps, navState> {
             })}
             {this.props.userId ?
               <div>
-                <li><Link href="/account"><a>account</a></Link></li>
+                <li><Link href="/account"><a>Account</a></Link></li>
               </div>
               :
-              <li><Link href="/login"><a>login</a></Link></li>
+              <li><Link href="/login"><a>Login</a></Link></li>
             }
           </ul>
         </ul>
@@ -55,7 +55,6 @@ class Nav extends Component<navProps, navState> {
         <style jsx>{`
           :global(body) {
             margin: 0 auto;
-            font-family: 'Karla';
           }
           nav {
             text-align: center;
@@ -63,7 +62,6 @@ class Nav extends Component<navProps, navState> {
           ul {
             display: flex;
             justify-content: space-between;
-            font-family: 'Poppins';
           }
           nav > ul {
             padding: 4px 0px;

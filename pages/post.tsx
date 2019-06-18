@@ -57,7 +57,7 @@ class PostJob extends Component<postJobProps, postJobState> {
       jobPosterId,
       externalPosting,
       dateAdded,
-      postingApproved,
+      postingApproved
     } = this.state;
 
     // Hacky way to assign unique link so MongoDB doesn't remove these as duplicates
@@ -141,9 +141,7 @@ class PostJob extends Component<postJobProps, postJobState> {
                 can also view, edit, and delete your job postings at any time.
               </p>
             </div>
-          ) : (
-            <p>Please feed me jobs</p>
-          )}
+          ) : null}
         </div>
         <div>
           <Form>
@@ -267,19 +265,19 @@ class PostJob extends Component<postJobProps, postJobState> {
         </div>
         {this.state.schoolName.length > 0 ? (
           <div>
-          <h3>Search Result Preview</h3>
+            <h3>Search Result Preview</h3>
 
-          <InternalResult
-            job={{
-              _id: "like anyone will ever see this",
-              link: undefined,
-              country: this.state.country,
-              city: this.state.city,
-              jobTitle: this.state.jobTitle,
-              name: this.state.schoolName,
-              updatedAt: new Date()
-            }}
-          />
+            <InternalResult
+              job={{
+                _id: "like anyone will ever see this",
+                link: undefined,
+                country: this.state.country,
+                city: this.state.city,
+                jobTitle: this.state.jobTitle,
+                name: this.state.schoolName,
+                updatedAt: new Date()
+              }}
+            />
           </div>
         ) : null}
         <Dimmer inverted active={this.state.loading}>

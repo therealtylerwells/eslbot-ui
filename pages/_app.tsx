@@ -11,7 +11,7 @@ import { ToastProvider } from "react-toast-notifications";
 
 class MyApp extends App {
   state = {
-    userId: undefined
+    userId: undefined,
   };
 
   componentDidMount() {

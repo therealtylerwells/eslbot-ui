@@ -16,7 +16,7 @@ interface headProps {
 const Head = (props: headProps) => (
   <NextHead>
     <meta charSet="UTF-8" />
-    <title>{props.title || ''}</title>
+    <title>{props.title || 'eslbot | Search English teaching jobs worldwide'}</title>
     <meta
       name="description"
       content={props.description || defaultDescription}
@@ -26,7 +26,7 @@ const Head = (props: headProps) => (
     <link rel="apple-touch-icon" href="/static/touch-icon.png" />
     <link rel="mask-icon" href="/static/favicon-mask.svg" color="#49B882" />
     <link rel="icon" href="/static/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css?family=Karla|Poppins|Ubuntu+Condensed&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap" rel="stylesheet"/>
     <link
       rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"

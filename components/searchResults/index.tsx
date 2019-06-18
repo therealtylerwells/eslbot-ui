@@ -12,7 +12,7 @@ const SearchResults = (props: searchProps) => {
     <div className="results">
       <p>
         {jobs.length === 50
-          ? "recently posted jobs"
+          ? "recent jobs"
           : jobs.length === 0
           ? "we found no jobs. try searching again"
           : `we found ${jobs.length} jobs`}

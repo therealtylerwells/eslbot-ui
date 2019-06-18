@@ -44,7 +44,7 @@ const JobRow = (props: JobRowProps) => {
       </Table.Cell>
       <Table.Cell style={{ 'textAlign': 'center' }}>
         <Popup
-          content={"Renewing a job updates your job post's post date to today, moving it to the top of results. Jobs must be 2 weeks old before they can be renewed."}
+          content={"Renewing a job updates your job post's post date to today, moving it to the top of results."}
           trigger={<button onClick={props.handleRenew} style={{ border: 'none', cursor: 'pointer' }}><Icon name="refresh" color="blue" /></button>}
         />
       </Table.Cell>

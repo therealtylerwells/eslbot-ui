@@ -28,11 +28,11 @@ class Help extends Component {
               what is eslbot?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 0}>
-            <p>eslbot is a website to search for ESL, TEFL, and English teaching jobs overseas</p>
-            <p>you can search jobs, post jobs, and find other jobs from around the internet</p>
-            <p>there are forums to post about teaching and leave school reviews</p>
-            <p>employers can sign up for a streamlined job posting experience</p>
+          <Accordion.Content style={styles.content} active={activeIndex === 0}>
+            <p>
+              We exist so users can search, post, and apply for ESL and TEFL jobs worldwide, as well as use forums and find aggregated job listings from around the internet.<br/>
+              We opened in 2019 because there was a lack of modern TEFL and ESL job search websites.<br/>
+            </p>
           </Accordion.Content>
 
           <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
@@ -41,10 +41,8 @@ class Help extends Component {
               how do I contact eslbot?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 1}>
-            <p>
-              email admin@eslbot.com
-          </p>
+          <Accordion.Content style={styles.content} active={activeIndex === 1}>
+            email <a href="mailto:admin@eslbot.com">admin@eslbot.com</a>
           </Accordion.Content>
 
           <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
@@ -53,7 +51,7 @@ class Help extends Component {
               how do I delete, edit, or view a list of my job postings?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 2}>
+          <Accordion.Content style={styles.content} active={activeIndex === 2}>
             <p>
               account > my jobs
           </p>
@@ -61,10 +59,10 @@ class Help extends Component {
           <Accordion.Title active={activeIndex === 3} index={3} onClick={this.handleClick}>
             <Icon name='dropdown' />
             <strong>
-              how do I change my password, recover my password, update my email address, or delete my account?
+              how do I change my password?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 3}>
+          <Accordion.Content style={styles.content} active={activeIndex === 3}>
             <p>
               account > manage my account
           </p>
@@ -76,7 +74,7 @@ class Help extends Component {
               how do I post a job?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 4}>
+          <Accordion.Content style={styles.content} active={activeIndex === 4}>
             <Link href="/post"><a>You can post jobs at this link</a></Link>
             <br/><br/><p>posting jobs is free and you can post as many as you want</p>
             <p>Unregistered users job posts are posted within 24 hours, pending approval. They cannot be deleted or edited and will expire in 60 days.</p>
@@ -87,18 +85,21 @@ class Help extends Component {
           <Accordion.Title active={activeIndex === 5} index={5} onClick={this.handleClick}>
             <Icon name='dropdown' />
             <strong>
-              how can I advertise on eslbot?
+              how do I advertise on eslbot?
             </strong>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 5}>
-            <p>
-              email admin@eslbot.com
-          </p>
+          <Accordion.Content style={styles.content} active={activeIndex === 5}>
+            email <a href="mailto:admin@eslbot.com">admin@eslbot.com</a>
           </Accordion.Content>
-
         </Accordion>
         </div>
     )
+  }
+}
+
+const styles = {
+  content: {
+    marginLeft: '20px',
   }
 }
 
