@@ -17,6 +17,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "javascript-time-ago": "^2.0.1",
     "next": "^8.1.0",
+    "next-ga": "^2.3.4",
     "react": "^16.8.6",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^16.8.6",

@@ -8,6 +8,8 @@ import Axios from "axios";
 import fetch from "isomorphic-unfetch";
 // @ts-ignore
 import { ToastProvider } from "react-toast-notifications";
+// @ts-ignore
+import withGA from "next-ga";
 
 class MyApp extends App {
   state = {
@@ -122,4 +124,5 @@ MyApp.getInitialProps = async function() {
   };
 };
 
-export default MyApp;
+// export default MyApp;
+export default withGA('UA-77095844-2', Router)(MyApp);
