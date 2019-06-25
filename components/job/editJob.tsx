@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import { Form, Button, Flag, Message, Dimmer, Loader, FlagNameValues } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Message,
+  Dimmer,
+  Loader,
+} from "semantic-ui-react";
 import { Row, Column } from "../common/grid";
-import { matchStateToTerm, getStates } from "../../utils/countrySelect";
-import Autocomplete from "react-autocomplete";
-import { JobType } from '../../types/types';
+import { JobType } from "../../types/types";
 
 interface editJobProps {
   job: JobType;
@@ -30,15 +34,23 @@ class EditJob extends Component<editJobProps, editJobState> {
     email: "",
     country: "",
     city: "",
-    jobDescription: '',
+    jobDescription: "",
     errors: false,
     loading: false,
-    jobTitle: '',
-    _id: '',
+    jobTitle: "",
+    _id: ""
   };
 
-  componentDidMount = async() => {
-    const { city, country, email, jobTitle, jobDescription, name, _id } = this.props.job;
+  componentDidMount = async () => {
+    const {
+      city,
+      country,
+      email,
+      jobTitle,
+      jobDescription,
+      name,
+      _id
+    } = this.props.job;
     this.setState({
       _id: _id!,
       city: city!,
@@ -47,8 +59,8 @@ class EditJob extends Component<editJobProps, editJobState> {
       jobTitle: jobTitle!,
       jobDescription: jobDescription!,
       name: name!
-    })
-  }
+    });
+  };
 
   render() {
     return this.props.isEditMode ? (
@@ -106,44 +118,15 @@ class EditJob extends Component<editJobProps, editJobState> {
             />
           </Column>
           <Column>
-            <span
-              style={{
-                color: "rgba(0,0,0,.87)",
-                fontSize: ".92857143em",
-                fontWeight: "bold"
-              }}
-            >
-              Country
-            </span>
-            <br />
-            {/* 
-                // @ts-ignore */}
-            <Autocomplete
+            <Form.Input
+              placeholder="Country"
+              label="Country"
               value={this.state.country}
-              inputProps={{ id: "states-autocomplete" }}
-              wrapperStyle={{ position: "relative", display: "inline-block" }}
-              items={getStates()}
-              autoHighlight
-              getItemValue={(item: {name: string}) => item.name}
-              shouldItemRender={matchStateToTerm}
-              onChange={(event: React.SyntheticEvent, country: string) => {
-                // using event so typescript will leave me alone wtf typescript
-                typeof event;
-                this.setState({ country });
+              onChange={() => {
+                this.setState({
+                  country: (event!.target as HTMLInputElement).value
+                });
               }}
-              onSelect={(country: string) => this.setState({ country })}
-              renderMenu={(children: {}) => (
-                <div className="menu">{children}</div>
-              )}
-              renderItem={(item: {abbr: FlagNameValues, name: string}, isHighlighted: boolean) => (
-                <div
-                  className={`item ${isHighlighted ? "item-highlighted" : ""}`}
-                  key={item.abbr}
-                >
-                  <Flag name={item.abbr} />
-                  {item.name}
-                </div>
-              )}
             />
           </Column>
         </Row>
@@ -165,8 +148,12 @@ class EditJob extends Component<editJobProps, editJobState> {
           {this.state.errors ? (
             <Message negative>All Fields Are Required</Message>
           ) : null}
-          <Button primary onClick={() => this.props.handleSaveEdit(this.state)}>Save</Button>
-          <Button color="red" onClick={this.props.handleCancelEdit}>Cancel</Button>
+          <Button primary onClick={() => this.props.handleSaveEdit(this.state)}>
+            Save
+          </Button>
+          <Button color="red" onClick={this.props.handleCancelEdit}>
+            Cancel
+          </Button>
         </div>
       </Form>
     ) : (

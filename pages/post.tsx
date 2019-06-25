@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Form, Button, Message, Dimmer, Loader, Flag } from "semantic-ui-react";
+import { Form, Button, Message, Dimmer, Loader } from "semantic-ui-react";
 import { Row, Column } from "../components/common/grid";
-import Autocomplete from "react-autocomplete";
 import Axios from "axios";
 import Router from "next/router";
-import { matchStateToTerm, getStates } from "../utils/countrySelect";
 import InternalResult from "../components/searchResults/internalResult";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
@@ -196,49 +194,14 @@ class PostJob extends Component<postJobProps, postJobState> {
                 />
               </Column>
               <Column>
-                <span
-                  style={{
-                    color: "rgba(0,0,0,.87)",
-                    fontSize: ".92857143em",
-                    fontWeight: "bold"
+              <Form.Input
+                  placeholder="Country"
+                  label="Country"
+                  onChange={() => {
+                    this.setState({
+                      country: (event!.target as HTMLInputElement).value
+                    });
                   }}
-                >
-                  Country
-                </span>
-                <br />
-                {/* 
-                // @ts-ignore */}
-                <Autocomplete
-                  value={this.state.country}
-                  inputProps={{ id: "states-autocomplete" }}
-                  wrapperStyle={{
-                    position: "relative",
-                    display: "inline-block"
-                  }}
-                  items={getStates()}
-                  autoHighlight
-                  getItemValue={item => item.name}
-                  shouldItemRender={matchStateToTerm}
-                  onChange={(event, country) => {
-                    // using event so typescript will leave me alone wtf typescript
-                    typeof event;
-                    this.setState({ country });
-                  }}
-                  onSelect={country => this.setState({ country })}
-                  renderMenu={children => (
-                    <div className="menu">{children}</div>
-                  )}
-                  renderItem={(item, isHighlighted) => (
-                    <div
-                      className={`item ${
-                        isHighlighted ? "item-highlighted" : ""
-                      }`}
-                      key={item.abbr}
-                    >
-                      <Flag name={item.abbr} />
-                      {item.name}
-                    </div>
-                  )}
                 />
               </Column>
             </Row>
