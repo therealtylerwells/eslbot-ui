@@ -13,6 +13,12 @@ const Row = (props: gridProps) => {
         flex-direction: row;
         margin: 25px 0 0 0;
       }
+      @media (max-width: 900px) { 
+        .row {
+          display: block;
+          margin: 0px;
+        }
+       }
     `}</style>
     </div>
   )
@@ -29,6 +35,11 @@ const Column = (props: gridProps) => {
         flex: 1;
         margin: 0 5px 0 5px;
       }
+      @media (max-width: 900px) { 
+        .column {
+          margin: 15px 5px 15px 0px;
+        }
+       }
     `}</style>  
     </div>
   )

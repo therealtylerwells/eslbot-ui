@@ -6,7 +6,8 @@ import {
   Icon,
   Message,
   Dimmer,
-  Loader
+  Loader,
+  Popup
 } from "semantic-ui-react";
 import { Row, Column } from "../components/common/grid";
 import Router from "next/router";
@@ -272,12 +273,23 @@ class Apply extends Component<IApplyProps, IApplyState> {
               </Button>
               <br />
               <br />
-              <a>How does applying work?</a>
+              <Popup
+              basic
+                content={
+                  "When you apply, we send an email to the job poster with the information you filled out in the form above. We do not save your data."
+                }
+                trigger={
+                  <div>
+                      
+                    <a>How does applying work?</a>
+                  </div>
+                }
+              />
             </div>
           </Column>
         </Row>
         <Dimmer inverted active={this.state.loading}>
-          <Loader content="Posting job" />
+          <Loader content="Emailing job poster" />
         </Dimmer>
         <style jsx>{`
           .item-highlighted {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
+import { Dropdown } from 'semantic-ui-react'
 
 const rightLinks = [
   {
@@ -30,6 +31,7 @@ class Nav extends Component<navProps, navState> {
   }
   render() {
     return (
+      <div>
       <nav>
         <ul>
           <li>
@@ -77,6 +79,7 @@ class Nav extends Component<navProps, navState> {
           }
         `}</style>
       </nav>
+      </div>
     )
   }
 }

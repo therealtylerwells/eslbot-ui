@@ -22,19 +22,6 @@ class Help extends Component {
         {/* 
       // @ts-ignore */}
         <Accordion>
-          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
-            <Icon name='dropdown' />
-            <strong>
-              what is eslbot?
-            </strong>
-          </Accordion.Title>
-          <Accordion.Content style={styles.content} active={activeIndex === 0}>
-            <p>
-              We exist so users can search, post, and apply for ESL and TEFL jobs worldwide, as well as use forums and find aggregated job listings from around the internet.<br/>
-              We opened in 2019 because there was a lack of modern TEFL and ESL job search websites.<br/>
-            </p>
-          </Accordion.Content>
-
           <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
             <Icon name='dropdown' />
             <strong>
@@ -75,13 +62,11 @@ class Help extends Component {
             </strong>
           </Accordion.Title>
           <Accordion.Content style={styles.content} active={activeIndex === 4}>
-            <Link href="/post"><a>You can post jobs at this link</a></Link>
+            <Link href="/post"><a>eslbot.com/post</a></Link>
             <br/><br/><p>posting jobs is free and you can post as many as you want</p>
-            <p>Unregistered users job posts are posted within 24 hours, pending approval. They cannot be deleted or edited and will expire in 60 days.</p>
-            <p>Registered users job posts are posted immediately. They can be edited, deleted, or renewed. Registering is quick and easy (we don't even ask you to verify your email).</p>
-
+            <p>Unregistered users cannot edit or delete their job postings. The job postings will expire in 60 days.</p>
+            <p>Registered users can edit, delete, and renew job postings. Registering is quick and easy (we don't even ask you to verify your email).</p>
           </Accordion.Content>
-
           <Accordion.Title active={activeIndex === 5} index={5} onClick={this.handleClick}>
             <Icon name='dropdown' />
             <strong>

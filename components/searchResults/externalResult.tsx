@@ -22,7 +22,7 @@ const ExternalResult = (props: externalResultProps) => {
   return (
     <div className="result-container">
       <a
-        style={{ fontSize: "24px", lineHeight: "28px", marginBottom: '4px' }}
+        className="headline"
         href={props.job.link}
         rel="noopener"
         target="_blank"
@@ -52,7 +52,7 @@ const ExternalResult = (props: externalResultProps) => {
                 trigger={
                   <div>
                     <a
-                      style={{ fontSize: "16px", marginRight: '4px' }}
+                      className="site-link"
                       href={props.job.websiteLink}
                       rel="noopener"
                       target="_blank"
@@ -100,6 +100,26 @@ const ExternalResult = (props: externalResultProps) => {
           flex: 1;
           text-align: left;
         }
+        .headline {
+          font-size: 24px;
+          line-height: 28px;
+          margin-bottom: 4px;
+        }
+        .site-link {
+          font-size: 16px;
+          margin-right: 4px;
+        }
+        @media (max-width: 900px) { 
+          .headline {
+            font-size: 18px;
+          }
+          .details {
+            font-size: 14px;
+          }
+          .site-link {
+            font-size: 14px;
+          }
+         }
       `}</style>
     </div>
   );

@@ -23,7 +23,7 @@ const MyJobs = (props: MyJobProps) => {
   const jobs = props.jobs;
   return jobs && !props.editMode ? (
     <div>
-      <Table celled>
+      <Table celled unstackable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell style={{ textAlign: "center" }}>
