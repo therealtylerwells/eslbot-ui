@@ -7,7 +7,6 @@ import ManageAccount from "../components/account/manageAccount";
 import EditJob from "../components/job/editJob";
 // @ts-ignore
 import { withToastManager } from 'react-toast-notifications';
-import Head from "../components/common/head";
 
 type accountProps = {
   handleLogout: () => void;

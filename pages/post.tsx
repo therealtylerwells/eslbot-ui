@@ -123,7 +123,7 @@ class PostJob extends Component<postJobProps, postJobState> {
   render() {
     return !this.state.loading ? (
       <div>
-        <Head title="eslbot | account" description={"Post a job. You can post as many jobs as you want, for free."}/>
+        <Head title="eslbot | post a job" description={"Post a job. You can post as many jobs as you want, for free."}/>
         {/* 
         // @ts-ignore */}
         <div>
