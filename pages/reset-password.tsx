@@ -3,6 +3,7 @@ import { Button, Form, Message, Dimmer, Loader } from "semantic-ui-react";
 import { Row, Column } from "../components/common/grid";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
+import Head from "../components/common/head";
 
 type IResetPasswordProps = {
   withToastManager: any;
@@ -44,6 +45,7 @@ class ResetPassword extends Component<
   render() {
     return (
       <div>
+        <Head title="eslbot | reset password" description={"reset your password"}/>
         {/* 
         // @ts-ignore */}
         <Row>

@@ -5,6 +5,7 @@ import Router from "next/router";
 import { JobType } from "../types/types";
 import { Dimmer, Loader } from "semantic-ui-react";
 import { HTTPResponseType } from '../types/types'
+import Head from "../components/common/head";
 
 type jobProps = {
   response: HTTPResponseType;
@@ -29,7 +30,10 @@ class Job extends Component<jobProps, jobState> {
   };
   render() {
     return this.state.job ? (
-      <InternalJob job={this.state.job} />
+      <div>
+        <Head title="eslbot | english teaching jobs worldwide"/>
+        <InternalJob job={this.state.job} />
+      </div>
     ) : (
       <Dimmer inverted active={this.state.loading}>
         <Loader content="Loading job" />
