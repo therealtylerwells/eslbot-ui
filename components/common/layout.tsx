@@ -28,7 +28,6 @@ class layout extends Component<ILayoutProps, ILayoutState> {
         <Nav userId={this.props.userId!}/>
         {/* 
         // @ts-ignore */}
-        <Head title={this.props.title}/>
         {this.props.children}
       </div>
     )  

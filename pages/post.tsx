@@ -6,6 +6,7 @@ import Router from "next/router";
 import InternalResult from "../components/searchResults/internalResult";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
+import Head from "../components/common/head";
 
 interface postJobProps {
   toastManager: any;
@@ -122,6 +123,7 @@ class PostJob extends Component<postJobProps, postJobState> {
   render() {
     return !this.state.loading ? (
       <div>
+        <Head title="eslbot | account" description={"Post a job. You can post as many jobs as you want, for free."}/>
         {/* 
         // @ts-ignore */}
         <div>

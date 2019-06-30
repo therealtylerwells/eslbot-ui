@@ -57,7 +57,6 @@ class MyApp extends App {
   };
 
   handleChangePassword = (oldPassword: string, newPassword: string) => {
-    console.log(this.state.userId, oldPassword, newPassword);
     const data = {
       id: this.state.userId,
       oldPassword,
@@ -79,7 +78,6 @@ class MyApp extends App {
     Axios.post("https://api.eslbot.com/reset-password-email", {
       email: email
     }).then(response => {
-      console.log(response);
       if (response.data.success) {
         this.setState({ loading: false });
         alert("Check your email for instructions");

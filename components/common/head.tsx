@@ -7,10 +7,10 @@ const defaultOGURL = ''
 const defaultOGImage = ''
 
 interface headProps {
-  title: string;
-  description: string;
-  url: string;
-  ogImage: string;
+  title?: string;
+  description?: string;
+  url?: string;
+  ogImage?: string;
 }
 
 const Head = (props: headProps) => (

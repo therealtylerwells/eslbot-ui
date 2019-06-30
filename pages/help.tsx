@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Accordion, Icon, AccordionTitleProps } from 'semantic-ui-react'
 import Link from 'next/link'
+import Head from '../components/common/head';
 
 class Help extends Component {
   state = {
@@ -19,6 +20,7 @@ class Help extends Component {
     const { activeIndex } = this.state;
     return (
       <div>
+      <Head title="eslbot | help" description={"Need help? Find some answers to questions here."}/>
         {/* 
       // @ts-ignore */}
         <Accordion>

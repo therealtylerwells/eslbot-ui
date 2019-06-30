@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Row, Column } from '../components/common/grid'
 // @ts-ignore
 import { withToastManager } from 'react-toast-notifications';
+import Head from '../components/common/head';
 
 type loginProps = {
   handleLogin: (user: {email: string, password: string}) => void;
@@ -58,6 +59,7 @@ class Login extends Component<loginProps, loginState> {
         {/* 
         // @ts-ignore */}
         <Row>
+        <Head title="eslbot | login" description={"Access your account."}/>
           <Column>
             <Form>
               <Column>

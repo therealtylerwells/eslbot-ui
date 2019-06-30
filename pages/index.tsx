@@ -8,6 +8,7 @@ import Axios from "axios";
 // @ts-ignore
 import { withToastManager } from 'react-toast-notifications';
 import { JobType } from '../types/types'
+import Head from "../components/common/head";
 
 type indexProps = {
   response: HTTPResponseType;
@@ -51,6 +52,7 @@ class Home extends React.Component<indexProps, indexState> {
   render() {
     return (
       <div>
+        <Head title="eslbot | esl jobs worldwide" description={"Search, post, and apply for ESL, TEFL, and English teaching jobs in China, Korea, Thailand, Japan, and worldwide."}/>
         <div style={{ textAlign: "center" }}>
           <Image
             wrapped

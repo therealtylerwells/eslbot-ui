@@ -15,6 +15,7 @@ import Axios from "axios";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
 import { JobType } from '../types/types';
+import Head from "../components/common/head";
 
 interface IApplyProps {
   style: React.CSSProperties;
@@ -125,6 +126,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
   render() {
     return this.state.job ? (
       <div className="container">
+        <Head title="eslbot | apply" description={"Apply for a job."}/>
         <Row>
           <Column style={{ flex: 4 }}>
             <div style={{ textAlign: "center" }}>
