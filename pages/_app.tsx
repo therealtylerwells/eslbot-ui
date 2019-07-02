@@ -6,8 +6,10 @@ import Router from "next/router";
 import Layout from "../components/common/layout";
 import Axios from "axios";
 import fetch from "isomorphic-unfetch";
-// @ts-ignore
+// @ts-ignore (no @types for this)
 import { ToastProvider } from "react-toast-notifications";
+// @ts-ignore (no @types for this)
+import withGA from "next-ga";	
 
 class MyApp extends App {
   state = {
@@ -121,4 +123,4 @@ MyApp.getInitialProps = async function() {
 };
 
 // export default MyApp;
-export default MyApp;
+export default withGA('UA-77095844-2', Router)(MyApp); 	
