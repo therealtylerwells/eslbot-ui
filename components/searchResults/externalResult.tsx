@@ -1,5 +1,5 @@
 import { JobType } from "../../types/types";
-import { Flag, Icon, Divider, Popup } from "semantic-ui-react";
+import { Flag, Icon, Divider } from "semantic-ui-react";
 import React from "react";
 {
   /* 
@@ -42,33 +42,16 @@ const ExternalResult = (props: externalResultProps) => {
             <Flag name={props.job.location.toLowerCase()} />
             {props.job.location}
             <br />
-            <div style={{ display: "inline" }}>
-              <Popup
-                content={
-                  "This is an external job. We found this job online and we are sharing it with you. This link will take you to " +
-                  props.job.website +
-                  "."
-                }
-                trigger={
-                  <div>
-                    <a
-                      className="site-link"
-                      href={props.job.websiteLink}
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      <Icon name="at" />
-                      {props.job.website}
-                    </a>
-                    <span style={{ fontSize: "10px", color: "gray" }}>
-                      <strong>
-                        [?]
-                      </strong>
-                    </span>
-                  </div>
-                }
-              />
-            </div>
+            <a
+              className="site-link"
+              href={props.job.websiteLink}
+              rel="noopener"
+              target="_blank"
+            >
+              <Icon name="at" />
+              {props.job.website}
+            </a>
+            <br/>
             <Icon name="calendar" />
             {timeAgo.format(new Date(props.job.dateAdded as any))}
           </p>
