@@ -66,7 +66,6 @@ class Home extends React.Component<indexProps, indexState> {
         </p>
         {/* 
         // @ts-ignore */}
-        <p style={{ fontSize: "8px", textAlign: "center" }}>{this.state.docCount} jobs posted in the last 90 days</p>
         <Search onSearch={this.onSearch} />
         {!this.state.loading ? <SearchResults results={this.state.jobs} docCount={this.state.docCount} /> : null}
         <Dimmer inverted active={this.state.loading}>
