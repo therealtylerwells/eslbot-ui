@@ -12,21 +12,24 @@ import Head from "../components/common/head";
 
 type indexProps = {
   response: HTTPResponseType;
+  docCount: number | undefined;
 };
 
 type indexState = {
   jobs: JobType[];
   loading: boolean;
+  docCount: number | undefined;
 };
 
 class Home extends React.Component<indexProps, indexState> {
   state = {
     loading: true,
-    jobs: []
+    jobs: [],
+    docCount: undefined
   };
 
   componentDidMount() {
-    this.setState({ jobs: this.props.response as any, loading: false });
+    this.setState({ jobs: this.props.response as any, docCount: this.props.docCount, loading: false });
   }
 
   onSearch = (event: React.SyntheticEvent, query: string) => {
@@ -36,7 +39,7 @@ class Home extends React.Component<indexProps, indexState> {
       this.setState({ loading: true, jobs: [] });
       Axios.get("https://api.eslbot.com/api/search?param=" + query).then((response) => {
         if (response.data.success) {
-          this.setState({ jobs: response.data.response, loading: false });
+          this.setState({ jobs: response.data.response, docCount: response.data.docCount, loading: false });
         } else {
           this.setState({ loading: false });
         }
@@ -55,15 +58,17 @@ class Home extends React.Component<indexProps, indexState> {
           description={"Search, post, and apply for ESL, TEFL, and English teaching jobs in China, Korea, Thailand, Japan, and worldwide."}
         />
         <div style={{ textAlign: "center" }}>
-          <Image wrapped size="small" src="https://image.freepik.com/free-vector/illustration-robot_53876-5576.jpg" />
+          <Image wrapped size="tiny" src="https://image.freepik.com/free-vector/illustration-robot_53876-5576.jpg" />
         </div>
-        {/* 
-        // @ts-ignore */}
         <p style={{ textAlign: "center" }}>
           Search, post, and apply for overseas English, ESL, and TEFL teaching jobs in Japan, South Korea, China, Thailand, and everywhere else
+          <br />
         </p>
+        {/* 
+        // @ts-ignore */}
+        <p style={{ fontSize: "8px", textAlign: "center" }}>{this.state.docCount} jobs posted in the last 90 days</p>
         <Search onSearch={this.onSearch} />
-        {!this.state.loading ? <SearchResults results={this.state.jobs} /> : null}
+        {!this.state.loading ? <SearchResults results={this.state.jobs} docCount={this.state.docCount} /> : null}
         <Dimmer inverted active={this.state.loading}>
           <Loader content="loading jobs" />
         </Dimmer>
