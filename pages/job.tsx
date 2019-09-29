@@ -4,7 +4,7 @@ import InternalJob from "../components/job/internalJob";
 import Router from "next/router";
 import { JobType } from "../types/types";
 import { Dimmer, Loader } from "semantic-ui-react";
-import { HTTPResponseType } from '../types/types'
+import { HTTPResponseType } from "../types/types";
 import Head from "../components/common/head";
 
 type jobProps = {
@@ -24,14 +24,14 @@ class Job extends Component<jobProps, jobState> {
   };
   componentDidMount = async () => {
     const id = Router.router!.query!.id;
-    const res = await fetch("https://api.eslbot.com/job?jobId=" + id);
+    const res = await fetch("https://api.eslbot.com/api/job?jobId=" + id);
     const data = await res.json();
     this.setState({ job: data.job, loading: false });
   };
   render() {
     return this.state.job ? (
       <div>
-        <Head title="eslbot | english teaching jobs worldwide"/>
+        <Head title="eslbot | english teaching jobs worldwide" />
         <InternalJob job={this.state.job} />
       </div>
     ) : (

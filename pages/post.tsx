@@ -46,18 +46,7 @@ class PostJob extends Component<postJobProps, postJobState> {
 
   handlePostJob = () => {
     this.setState({ loading: true, errors: false, errorMessage: "" });
-    const {
-      schoolName,
-      email,
-      jobTitle,
-      city,
-      country,
-      jobDescription,
-      jobPosterId,
-      externalPosting,
-      dateAdded,
-      postingApproved
-    } = this.state;
+    const { schoolName, email, jobTitle, city, country, jobDescription, jobPosterId, externalPosting, dateAdded, postingApproved } = this.state;
 
     // Hacky way to assign unique link so MongoDB doesn't remove these as duplicates
     const link = Math.random() * (1 - 100000000000) + 1;
@@ -83,7 +72,7 @@ class PostJob extends Component<postJobProps, postJobState> {
         dateAdded,
         link
       };
-      Axios.post("https://api.eslbot.com/job", job).then(response => {
+      Axios.post("https://api.eslbot.com/api/job", job).then((response) => {
         if (response.data.success) {
           this.props.toastManager.add(`Job saved`, {
             appearance: "success",
@@ -123,7 +112,7 @@ class PostJob extends Component<postJobProps, postJobState> {
   render() {
     return !this.state.loading ? (
       <div>
-        <Head title="eslbot | post a job" description={"Post a job. You can post as many jobs as you want, for free."}/>
+        <Head title="eslbot | post a job" description={"Post a job. You can post as many jobs as you want, for free."} />
         {/* 
         // @ts-ignore */}
         <div>
@@ -131,14 +120,12 @@ class PostJob extends Component<postJobProps, postJobState> {
             <div>
               <p>Posting jobs is free.</p>
               <p>
-                If you're not registered, then your job posting will go live
-                within 24 hours pending approval. You will not be able to delete
-                your job posting. It will expire in 60 days.
+                If you're not registered, then your job posting will go live within 24 hours pending approval. You will not be able to delete your job posting.
+                It will expire in 60 days.
               </p>
               <p>
-                If you're registered (it's fast and doesn't even require email
-                verification!), then your posting will go live immediately. You
-                can also view, edit, and delete your job postings at any time.
+                If you're registered (it's fast and doesn't even require email verification!), then your posting will go live immediately. You can also view,
+                edit, and delete your job postings at any time.
               </p>
             </div>
           ) : null}
@@ -196,7 +183,7 @@ class PostJob extends Component<postJobProps, postJobState> {
                 />
               </Column>
               <Column>
-              <Form.Input
+                <Form.Input
                   placeholder="Country"
                   label="Country"
                   onChange={() => {
@@ -221,9 +208,7 @@ class PostJob extends Component<postJobProps, postJobState> {
               </Column>
             </Row>
             <div style={{ marginTop: "10px", textAlign: "center" }}>
-              {this.state.errors ? (
-                <Message negative>All Fields Are Required</Message>
-              ) : null}
+              {this.state.errors ? <Message negative>All Fields Are Required</Message> : null}
               <Button onClick={this.handlePostJob}>Post Job</Button>
             </div>
           </Form>

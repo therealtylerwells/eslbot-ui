@@ -9,11 +9,11 @@ import fetch from "isomorphic-unfetch";
 // @ts-ignore (no @types for this)
 import { ToastProvider } from "react-toast-notifications";
 // @ts-ignore (no @types for this)
-import withGA from "next-ga";	
+import withGA from "next-ga";
 
 class MyApp extends App {
   state = {
-    userId: undefined,
+    userId: undefined
   };
 
   componentDidMount() {
@@ -28,25 +28,25 @@ class MyApp extends App {
   };
 
   handleRegister = (user: any) => {
-    Axios.post('https://api.eslbot.com/user', user)
-    .then(response => {
-      if (response.data.success) {
-        localStorage.setItem('userId', (response.data.id))
-        this.setState({ userId: response.data.id, loading: false });
-        Router.push('/account')
-      } else {
-        this.setState({ errors: true, errorMessage: response.data.message, loading: false})
-      }
-    })
-    .catch(error => {
-      alert('Error: ' + error);
-      this.setState({loading: false})
-    })
-  }
+    Axios.post("https://api.eslbot.com/users/user", user)
+      .then((response) => {
+        if (response.data.success) {
+          localStorage.setItem("userId", response.data.id);
+          this.setState({ userId: response.data.id, loading: false });
+          Router.push("/account");
+        } else {
+          this.setState({ errors: true, errorMessage: response.data.message, loading: false });
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+        this.setState({ loading: false });
+      });
+  };
 
   handleLogin = (user: { username: string; password: string }) => {
     this.setState({ loading: true });
-    Axios.post("https://api.eslbot.com/login", user).then(response => {
+    Axios.post("https://api.eslbot.com/users/login", user).then((response) => {
       if (response.data.success) {
         localStorage.setItem("userId", response.data.id);
         this.setState({ userId: response.data.id, loading: false });
@@ -64,22 +64,21 @@ class MyApp extends App {
       oldPassword,
       newPassword
     };
-    Axios.post("https://api.eslbot.com/change-password", data)
-      .then(response => {
-        if (response.data.success) {
-          this.handleLogout();
-          alert('Your password is changed. Please sign in again');
-        } else {
-          alert('Error: ' + response.data.message);
-        }
-      })
+    Axios.post("https://api.eslbot.com/users/change-password", data).then((response) => {
+      if (response.data.success) {
+        this.handleLogout();
+        alert("Your password is changed. Please sign in again");
+      } else {
+        alert("Error: " + response.data.message);
+      }
+    });
   };
 
   handleResetPassword = (email: string) => {
     this.setState({ loading: true });
-    Axios.post("https://api.eslbot.com/reset-password-email", {
+    Axios.post("https://api.eslbot.com/users/reset-password-email", {
       email: email
-    }).then(response => {
+    }).then((response) => {
       if (response.data.success) {
         this.setState({ loading: false });
         alert("Check your email for instructions");
@@ -114,7 +113,7 @@ class MyApp extends App {
 }
 
 MyApp.getInitialProps = async function() {
-  const res = await fetch("https://api.eslbot.com/get-recent-jobs");
+  const res = await fetch("https://api.eslbot.com/api/get-recent-jobs", { headers: { origin: "https://www.eslbot.com" } });
   const data = await res.json();
 
   return {
@@ -123,4 +122,4 @@ MyApp.getInitialProps = async function() {
 };
 
 // export default MyApp;
-export default withGA('UA-77095844-2', Router)(MyApp); 	
+export default withGA("UA-77095844-2", Router)(MyApp);

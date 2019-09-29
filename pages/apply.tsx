@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Button,
-  Image,
-  Icon,
-  Message,
-  Dimmer,
-  Loader,
-  Popup
-} from "semantic-ui-react";
+import { Form, Button, Image, Icon, Message, Dimmer, Loader, Popup } from "semantic-ui-react";
 import { Row, Column } from "../components/common/grid";
 import Router from "next/router";
 import Axios from "axios";
 // @ts-ignore
 import { withToastManager } from "react-toast-notifications";
-import { JobType } from '../types/types';
+import { JobType } from "../types/types";
 import Head from "../components/common/head";
 
 interface IApplyProps {
@@ -58,7 +49,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
 
   componentDidMount = async () => {
     const id = Router.router!.query!.id;
-    const res = await fetch("https://api.eslbot.com/job?jobId=" + id);
+    const res = await fetch("https://api.eslbot.com/api/job?jobId=" + id);
     const data = await res.json();
     this.setState({ job: data.job, loading: false });
   };
@@ -66,16 +57,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
   handleApply = async () => {
     this.setState({ loading: true, errors: false, errorMessage: "" });
 
-    const {
-      name,
-      email,
-      nationality,
-      degree,
-      teachingExperience,
-      currentLocation,
-      message,
-      job
-    } = this.state;
+    const { name, email, nationality, degree, teachingExperience, currentLocation, message, job } = this.state;
 
     if (
       name.trim().length > 1 &&
@@ -96,7 +78,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
         message,
         job
       };
-      Axios.post("https://api.eslbot.com/apply", application).then(response => {
+      Axios.post("https://api.eslbot.com/api/apply", application).then((response) => {
         if (response.data.success) {
           this.props.toastManager.add(`Email sent!`, {
             appearance: "success",
@@ -104,7 +86,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
             placement: "bottom-left"
           });
           this.setState({ loading: false });
-          Router.back()
+          Router.back();
         } else {
           this.props.toastManager.add(`Email send failure. Uh oh`, {
             appearance: "error",
@@ -126,15 +108,11 @@ class Apply extends Component<IApplyProps, IApplyState> {
   render() {
     return this.state.job ? (
       <div className="container">
-        <Head title="eslbot | apply" description={"Apply for a job."}/>
+        <Head title="eslbot | apply" description={"Apply for a job."} />
         <Row>
           <Column style={{ flex: 4 }}>
             <div style={{ textAlign: "center" }}>
-              <Image
-                wrapped
-                size="small"
-                src="https://upload.wikimedia.org/wikipedia/commons/3/38/Robot-clip-art-book-covers-feJCV3-clipart.png"
-              />
+              <Image wrapped size="small" src="https://upload.wikimedia.org/wikipedia/commons/3/38/Robot-clip-art-book-covers-feJCV3-clipart.png" />
             </div>
             <div
               style={{
@@ -201,8 +179,7 @@ class Apply extends Component<IApplyProps, IApplyState> {
                     label="Where do you currently live?"
                     onChange={() =>
                       this.setState({
-                        currentLocation: (event!.target as HTMLInputElement)
-                          .value
+                        currentLocation: (event!.target as HTMLInputElement).value
                       })
                     }
                   />
@@ -267,22 +244,17 @@ class Apply extends Component<IApplyProps, IApplyState> {
             </Form>
             <br />
             <div style={{ textAlign: "center" }}>
-              {this.state.errors ? (
-                <Message negative>All Fields Are Required</Message>
-              ) : null}
+              {this.state.errors ? <Message negative>All Fields Are Required</Message> : null}
               <Button primary onClick={this.handleApply}>
                 Apply now
               </Button>
               <br />
               <br />
               <Popup
-              basic
-                content={
-                  "When you apply, we send an email to the job poster with the information you filled out in the form above. We do not save your data."
-                }
+                basic
+                content={"When you apply, we send an email to the job poster with the information you filled out in the form above. We do not save your data."}
                 trigger={
                   <div>
-                      
                     <a>How does applying work?</a>
                   </div>
                 }
