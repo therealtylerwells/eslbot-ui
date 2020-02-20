@@ -51,7 +51,7 @@ const ExternalResult = (props: externalResultProps) => {
         a {
           font-family: "Poppins", sans-serif;
           text-align: left;
-          width: auto;
+          width: fit-content;
         }
         .details {
           font-size: 14px;

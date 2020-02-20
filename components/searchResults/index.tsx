@@ -9,11 +9,11 @@ interface searchProps {
 
 const SearchResults = (props: searchProps) => {
   const jobs = props.results;
-  return props.results ? (
+  return (
     <div className="results">
       <p>
         {jobs.length === 50
-          ? `${props.docCount} jobs posted in last 90 days`
+          ? `${props.docCount} jobs have been posted in the past 90 days. You're viewing the latest 50`
           : jobs.length === 0
           ? "we found no jobs. try searching again"
           : `we found ${jobs.length} jobs`}
@@ -29,7 +29,7 @@ const SearchResults = (props: searchProps) => {
         }
       `}</style>
     </div>
-  ) : null;
+  ) 
 };
 
 export default SearchResults;
